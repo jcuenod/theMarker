@@ -1,0 +1,80 @@
+body {
+	background-color: #dde;
+}
+
+a[href], a[href]:visited {
+	text-decoration: none;
+	padding: 0 2px;
+	font-weight: bold;
+	color: #22a;
+}
+a[href]:hover {
+	color: #2cf;
+}
+
+.chapter:before {
+	content: attr(data-chapter-number);
+	float: left;
+	font-weight: bold;
+	font-size: 200%;
+}
+.verse:before {
+	content: attr(data-verse-number);
+	display: inline-block;
+	font-weight: bold;
+	font-size: 60%;
+}
+
+.chapternumber {
+	font-weight: bold;
+	font-size: small;
+}
+.versenumber {
+	font-size: 50%;
+	line-height: 100%;
+	vertical-align: top;
+	color: red;
+}
+.warning {
+	font-weight: bold;
+	font-size: small;
+	visibility: hidden;
+	color: #822;
+	font-family: Comic Sans MS;
+}
+
+span[strongsnumber]:hover {
+	background-color: #cef;
+}
+.highlightrow {
+	display: inherit;
+}
+.highlightbuttons {
+	display: block;
+	clear: left;
+}
+.highlightsettings {
+	padding-left: 30px;
+	display: block;
+	clear: right;
+	float: right;
+}
+.title {
+	float: left;
+}
+input[type=button] {
+	width:120px;
+}
+
+
+.contentmain {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	overflow: auto;
+	border-top: 1px solid black;
+	padding: 15px;
+	background-color: #eed;
+	font-family: "SBL Biblit";
+}

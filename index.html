@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+	<head>
+		<title>The Marker | Making Short Work of Long Works</title>
+		<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+		<link rel="stylesheet" href="css/style.css" />
+		<script src="js/jquery-2.2.0.min.js"></script>
+		<script src="js/themarker.js"></script>
+	</head>
+	<body>
+		<div style="position:fixed; left: 0; top: 0; padding: 10px 30px;" id="mkhead">
+			<h1 class="title">themarker</h1>
+			<div class="highlightsettings">
+				<div class="highlightrow"><span id="primaryhighlight_warning" class="warning">!</span><input type="text" id="primaryhighlight" /><input type="radio" name="autoadd" value="#primaryhighlight" /></div>
+				<div class="highlightrow"><span id="secondaryhighlight_warning" class="warning">!</span><input type="text" id="secondaryhighlight" /><input type="radio" name="autoadd" value="#secondaryhighlight" /></div>
+				<div class="highlightrow"><span id="tertiaryhighlight_warning" class="warning">!</span><input type="text" id="tertiaryhighlight" /><input type="radio" name="autoadd" value="#tertiaryhighlight" /></div>
+				<div class="highlightrow"><span id="fourthhighlight_warning" class="warning">!</span><input type="text" id="fourthhighlight" /><input type="radio" name="autoadd" value="#fourthhighlight" /></div>
+				<div class="highlightrow"><span id="fifthhighlight_warning" class="warning">!</span><input type="text" id="fifthhighlight" /><input type="radio" name="autoadd" value="#fifthhighlight" /></div>
+				<div class="highlightrow">[Don't auto add: <input type="radio" name="autoadd" value="null" checked />]</div>
+			</div>
+			<div class="highlightbuttons"><input type="button" value="HIGHLIGHT!" onclick="highlight()"><input type="button" value="CLEAR!" onclick="clearHighlights()"></div>
+		</div>
+		<div style="position: fixed; right: 0; top: 0; padding: 5px 10px;">
+			<div style="float: right; clear: both;"><a href="#ch1">1</a><a href="#ch2">2</a><a href="#ch3">3</a><a href="#ch4">4</a><a href="#ch5">5</a><a href="#ch6">6</a><a href="#ch7">7</a><a href="#ch8">8</a><a href="#ch9">9</a><a href="#ch10">10</a><a href="#ch11">11</a><a href="#ch12">12</a><a href="#ch13">13</a><a href="#ch14">14</a><a href="#ch15">15</a><a href="#ch16">16</a></div>
+			<div id="staticdatadisplayer" style="padding: 0 10px; float: right; clear: both;">Static [click to change]</div>
+			<div id="dynamicdatadisplayer" style="padding: 0 10px; float: right; clear: both;">Dyanmic [mouseover to change]</div>
+			<div id="versereference" style="float:right; clear: both;"><h4>Matthew <span id="location"></span></h4></div>
+		</div>
+		<div class="contentmain">
+		</div>
+		<div id="loading" style="text-align: center; position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(54, 54, 80, 0.7); padding-top:20%; color: yellow;">
+			<h1>Loading...</h1>
+		</div>
+	</body>
+</html>
