@@ -89,6 +89,10 @@ function showLoad()
 {
 	var $select = $("<select>");
 	$select.append("<option value='matthew'>Matthew</option>");
+	$select.append("<option value='mark'>Mark</option>");
+	$select.append("<option value='luke'>Luke</option>");
+	$select.append("<option value='john'>John</option>");
+	$select.append("<option value='acts'>Acts</option>");
 	$select.append("<option value='galatians'>Galatians</option>");
 	$.MessageBox({
 		message : "Choose an Option:",
