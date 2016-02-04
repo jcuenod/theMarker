@@ -85,40 +85,59 @@ function inArray(elem, array) {
 // 	highlight();
 // }
 
-
-$(document).ready(function() {
-
-	$.getJSON("json/matthew.json", function(data){
-		bibleData = data;
-		data.chapters.forEach(function(chapter){
-			if (chapter.verses.length === 1)
-				return;
-			var $chElement = $("<p>")
-				.addClass("chapter")
-				.attr("data-chapter-number", chapter.chapter)
-				.attr("id", "ch" + chapter.chapter);
-			chapter.verses.forEach(function(verse){
-				var $vElement = $("<span>")
-					.addClass("verse")
-					.attr("data-verse-number", verse.verse);
-				verse.words.forEach(function(word){
-					$vElement.append(
-						$("<span>")
-						  .append(word.wordInText + ' ')
-						  .addClass("wordItself")
-						  .attr("data-word-index-in-verse", word.wordIndexInVerse)
-						  .attr("data-lemma", word.lemma)
-						  .attr("data-morphology-one", word.morphologyOne)
-						  .attr("data-morphology-two", word.morphologyTwo)
-					);
+function showLoad()
+{
+	var $select = $("<select>");
+	$select.append("<option value='matthew'>Matthew</option>");
+	$select.append("<option value='galatians'>Galatians</option>");
+	$.MessageBox({
+		message : "Choose an Option:",
+		buttonDone  : "Prepare to Mark",
+		buttonFail  : "Cancel",
+		input   : $select
+	}).done(function(data){
+		$("#loading").css("display", "block");
+		$(".bookname").text(data);
+		$.getJSON("json/" + data + ".json", function(data){
+			$(".contentmain").empty();
+			$("#chapterButtons").empty();
+			bibleData = data;
+			data.chapters.forEach(function(chapter){
+				if (chapter.verses.length === 1)
+					return;
+				var $chElement = $("<p>")
+					.addClass("chapter")
+					.attr("data-chapter-number", chapter.chapter)
+					.append($("<a>").attr("name", "ch" + chapter.chapter));
+				chapter.verses.forEach(function(verse){
+					var $vElement = $("<span>")
+						.addClass("verse")
+						.attr("data-verse-number", verse.verse);
+					verse.words.forEach(function(word){
+						$vElement.append(
+							$("<span>")
+							  .append(word.wordInText + ' ')
+							  .addClass("wordItself")
+							  .attr("data-word-index-in-verse", word.wordIndexInVerse)
+							  .attr("data-lemma", word.lemma)
+							  .attr("data-morphology-one", word.morphologyOne)
+							  .attr("data-morphology-two", word.morphologyTwo)
+						);
+					});
+					$chElement.append($vElement);
 				});
-				$chElement.append($vElement);
+				$(".contentmain").append($chElement);
+				$("#chapterButtons").append(
+					$("<a>").attr("href", "#ch" + chapter.chapter)
+					.text(chapter.chapter)
+				);
 			});
-			$(".contentmain").append($chElement);
-			$("#chapterButtons").append($("<a>").attr("href", "#" + chapter.chapter));
+			$("#loading").css("display", "none");
 		});
 	});
+}
 
+$(document).ready(function() {
 	// $("#primaryhighlight").val(localStorage.getItem("#primaryhighlight"));
 	// $("#secondaryhighlight").val(localStorage.getItem("#secondaryhighlight"));
 	// $("#tertiaryhighlight").val(localStorage.getItem("#tertiaryhighlight"));
@@ -132,9 +151,11 @@ $(document).ready(function() {
 	//$('span[tag^="V-P"]').css("background-color", "#843");
 	//$('span[tag^="V-PAM-3S"]').css("background-color", "#f88");
 
-	$("#loading").css("display", "none");
+	showLoad();
 
 
+}).on("click", ".loadNewBook", function(){
+	showLoad();
 }).on("click", ".wordItself", function(){
 	displaydata($(this), "#staticdatadisplayer");
 
@@ -190,7 +211,14 @@ $(document).ready(function() {
 	$("#location").html(chapterNumber + ":" + verseNumber);
 
 	displaydata($(this), "#dynamicdatadisplayer");
-}).on("click", "#staticdatadisplayer", function() {
+}).on("click", ".btnHighlightSomething", function() {
+	if (!dataDisplayed["#staticdatadisplayer"])
+	{
+		$.MessageBox({
+		    message : "At least click on a word first..."
+		});
+		return;
+	}
 	// $("[data-lemma='" + dataDisplayed["#staticdatadisplayer"].lemma + "']").toggleClass("highlightLemma");
 
 	var objectorder = ["person", "tense", "voice", "mood", "case", "number", "gender", "degree"];
