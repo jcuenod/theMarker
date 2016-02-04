@@ -78,3 +78,11 @@ input[type=button] {
 	background-color: #eed;
 	font-family: "SBL Biblit";
 }
+
+.highlightLemma {
+	background-color: #833;
+}
+
+.wordItself:hover {
+	background-color: #a88;
+}
