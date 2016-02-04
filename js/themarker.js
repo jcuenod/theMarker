@@ -13,6 +13,7 @@ var primarycolours = ["SteelBlue", "Aqua", "MediumTurquoise", "PaleTurquoise", "
 
 var bibleData;
 
+var $form = $("<div>");
 var dataDisplayed = [];
 var highlightCounter = 0;
 
@@ -61,9 +62,9 @@ function displaydata(object, destination)
 
 	if (dataWord.lemma)
 	{
-		$(destination).text(dataWord.lemma + " : " + dataWord.morphologyOne + " : " + dataWord.morphologyTwo);
+		$(destination).html(dataWord.lemma + "<br />" + dataWord.morphologyOne + " : " + dataWord.morphologyTwo);
 	}
-	dataDisplayed[destination] = dataWord;
+	return dataWord;
 }
 
 function inArray(elem, array) {
@@ -100,8 +101,8 @@ function showLoad()
 		buttonFail  : "Cancel",
 		input   : $select
 	}).done(function(data){
-		$("#loading").css("display", "block");
-		$(".bookname").text(data);
+		$(".loadingOverlay").show();
+		$(".referenceBook").text(data);
 		$.getJSON("json/" + data + ".json", function(data){
 			$(".contentmain").empty();
 			$("#chapterButtons").empty();
@@ -134,11 +135,59 @@ function showLoad()
 				$("#chapterButtons").append(
 					$("<a>").attr("href", "#ch" + chapter.chapter)
 					.text(chapter.chapter)
+					.addClass("chapterLink")
 				);
 			});
-			$("#loading").css("display", "none");
+			$(".loadingOverlay").fadeOut();
 		});
 	});
+}
+var formStructure = [
+	{"name": "person", "elements": [{"value": "1", "option": "1st"}, {"value": "2", "option": "2nd"}, {"value": "3", "option": "3rd"}]},
+	{"name": "tense", "elements": [{"value": "P", "option": "present"}, {"value": "I", "option": "imperfect"}, {"value": "F", "option": "future"}, {"value": "A", "option": "aorist"}, {"value": "X", "option": "perfect"}, {"value": "Y", "option": "pluperfect"}]},
+	{"name": "voice", "elements": [{"value": "A", "option": "active"}, {"value": "M", "option": "middle"}, {"value": "P", "option": "passive"}]},
+	{"name": "mood", "elements": [{"value": "I", "option": "indicative"}, {"value": "D", "option": "imperative"}, {"value": "S", "option": "subjunctive"}, {"value": "O", "option": "optative"}, {"value": "N", "option": "infinitive"}, {"value": "P", "option": "participle"}]},
+	{"name": "case", "elements": [{"value": "N", "option": "nominative"}, {"value": "G", "option": "genitive"}, {"value": "D", "option": "dative"}, {"value": "A", "option": "accusative"}]},
+	{"name": "number", "elements": [{"value": "S", "option": "singular"}, {"value": "P", "option": "plural"}]},
+	{"name": "gender", "elements": [{"value": "M", "option": "masculine"}, {"value": "F", "option": "feminine"}, {"value": "N", "option": "neuter"}]},
+	{"name": "degree", "elements": [{"value": "C", "option": "comparative"}, {"value": "S", "option": "superlative"}]}
+];
+function buildForm()
+{
+	$form.empty();
+
+	// var $txtCollectionName = $("<input>")
+	// 	.attr("type", "text")
+	// 	.attr("name", "collectionName")
+	// 	.attr("placeholder", "name this collection")
+	// 	.addClass("u-full-width");
+
+	var $txtlemma = $("<input>")
+		.attr("type", "text")
+		.attr("name", "lemma")
+		.attr("placeholder", "any lemma")
+		.addClass("u-full-width")
+		.on("click", function(){
+			$(this).val(dataDisplayed.lemma);
+			this.select();
+		});
+		// .val(dataDisplayed["#staticdatadisplayer"].lemma);
+// .append($txtCollectionName)
+	$form
+		 .append($txtlemma)
+	     .append($("<br>"));
+
+	formStructure.forEach(function(e){
+		var $select = $("<select>").attr("name", e.name).addClass("u-full-width");
+		$select.append($("<option style='display:none;'>").val(".").text(e.name).attr("selected", ""));
+		$select.append($("<option>").val(".").text("any"));
+		e.elements.forEach(function(e){
+			$select.append($("<option>").val(e.value).text(e.option));
+		});
+		$form.append($select);
+	});
+
+	$(".highlightOptions").append($form);
 }
 
 $(document).ready(function() {
@@ -156,12 +205,13 @@ $(document).ready(function() {
 	//$('span[tag^="V-PAM-3S"]').css("background-color", "#f88");
 
 	showLoad();
+	buildForm();
 
 
 }).on("click", ".loadNewBook", function(){
 	showLoad();
 }).on("click", ".wordItself", function(){
-	displaydata($(this), "#staticdatadisplayer");
+	dataDisplayed = displaydata($(this), ".static.dataDisplayer");
 
 	// if ($(this).attr("strongsnumber"))
 	// {
@@ -212,102 +262,124 @@ $(document).ready(function() {
 	var verseNumber = $(e.target).parent().attr("data-verse-number");
 	var chapterNumber = $(e.target).parent().parent().attr("data-chapter-number");
 
-	$("#location").html(chapterNumber + ":" + verseNumber);
+	$(".referenceVerse").html(chapterNumber + ":" + verseNumber);
 
-	displaydata($(this), "#dynamicdatadisplayer");
+	displaydata($(this), ".dynamic.dataDisplayer");
 }).on("click", ".btnHighlightSomething", function() {
-	if (!dataDisplayed["#staticdatadisplayer"])
-	{
-		$.MessageBox({
-		    message : "At least click on a word first..."
-		});
-		return;
-	}
-	// $("[data-lemma='" + dataDisplayed["#staticdatadisplayer"].lemma + "']").toggleClass("highlightLemma");
-
-	var objectorder = ["person", "tense", "voice", "mood", "case", "number", "gender", "degree"];
-	// var anythingObject = {"person": ".", "tense": ".", "voice": ".", "mood": ".", "case": ".", "number": ".", "gender": ".", "degree": "."};
-	var formStructure = [
-		{"name": "person", "elements": [{"value": "1", "option": "1st"}, {"value": "2", "option": "2nd"}, {"value": "3", "option": "3rd"}]},
-		{"name": "tense", "elements": [{"value": "P", "option": "present"}, {"value": "I", "option": "imperfect"}, {"value": "F", "option": "future"}, {"value": "A", "option": "aorist"}, {"value": "X", "option": "perfect"}, {"value": "Y", "option": "pluperfect"}]},
-		{"name": "voice", "elements": [{"value": "A", "option": "active"}, {"value": "M", "option": "middle"}, {"value": "P", "option": "passive"}]},
-		{"name": "mood", "elements": [{"value": "I", "option": "indicative"}, {"value": "D", "option": "imperative"}, {"value": "S", "option": "subjunctive"}, {"value": "O", "option": "optative"}, {"value": "N", "option": "infinitive"}, {"value": "P", "option": "participle"}]},
-		{"name": "case", "elements": [{"value": "N", "option": "nominative"}, {"value": "G", "option": "genitive"}, {"value": "D", "option": "dative"}, {"value": "A", "option": "accusative"}]},
-		{"name": "number", "elements": [{"value": "S", "option": "singular"}, {"value": "P", "option": "plural"}]},
-		{"name": "gender", "elements": [{"value": "M", "option": "masculine"}, {"value": "F", "option": "feminine"}, {"value": "N", "option": "neuter"}]},
-		{"name": "degree", "elements": [{"value": "C", "option": "comparative"}, {"value": "S", "option": "superlative"}]}
-	];
-
-	var $form = $("<div>");
-
-	var $txtCollectionName = $("<input>")
-		.attr("type", "text")
-		.attr("name", "collectionName")
-		.attr("placeholder", "name this collection");
-
-	var $txtlemma = $("<input>")
-		.attr("type", "text")
-		.attr("name", "lemma")
-		.attr("placeholder", "lemma (clear=any)")
-		.val(dataDisplayed["#staticdatadisplayer"].lemma);
-
-	$form.append($txtCollectionName)
-		 .append($txtlemma)
-	     .append($("<br>"));
-
-	formStructure.forEach(function(e){
-		var $select = $("<select>").attr("name", e.name);
-		$select.append($("<option style='display:none;'>").val(".").text(e.name).attr("selected", ""));
-		$select.append($("<option>").val(".").text("any"));
-		e.elements.forEach(function(e){
-			$select.append($("<option>").val(e.value).text(e.option));
-		});
-		$form.append($select);
+	var $formElements = $form.children().filter(":input");
+	var formData = {};
+	$($formElements).each(function () {
+		formData[this.name] = $(this).val();
 	});
 
-	var reserialize = function(){
-		var $formElements = $form.children().filter(":input");
-		var serializedObject = {};
-		$($formElements).each(function () {
-			serializedObject[this.name] = $(this).val();
+		var regex = "";
+		formStructure.forEach(function(e){
+			regex += formData[e.name];
 		});
-		var value = JSON.stringify(serializedObject);
-		$form.val(value);
-	};
-	reserialize();
+		console.log(formData.collectionName);
+		console.log(formData.lemma);
+		console.log(regex);
+		var $words = $(".wordItself");
+		if (regex != "........")
+			$words = $words.filter(":regex(data-morphology-two," + regex + ")");
+		if (formData.lemma !== "")
+			$words = $words.filter("[data-lemma='" + formData.lemma + "']");
+		$words.css("background-color", primarycolours[highlightCounter++]);
+		$words.addClass("regexHighlighted");
+		$words.attr("data-highlight-index", highlightCounter);
 
-	$form.on("change", reserialize);
-
-	// Show a MessageBox with custom Input
-	$.MessageBox({
-	    message : "What would you like to highlight?:",
-		buttonDone  : "Highlight!",
-		buttonFail  : "Cancel",
-	    input   : $form
-	}).done(function(data){
-		try {
-			var parsedData = JSON.parse(data);
-			// parsedData = $.extend(anythingObject, parsedData);
-			var regex = "";
-			objectorder.forEach(function(e){
-				regex += parsedData[e];
-			});
-			console.log(parsedData.collectionName);
-			console.log(parsedData.lemma);
-			console.log(regex);
-			var $words = $(".wordItself");
-			if (regex != "........")
-				$words = $words.filter(":regex(data-morphology-two," + regex + ")");
-			if (parsedData.lemma !== "")
-				$words = $words.filter("[data-lemma='" + parsedData.lemma + "']");
-			$words.css("background-color", primarycolours[highlightCounter++]);
-			$words.addClass("regexHighlighted");
-			$words.attr("data-highlight-index", highlightCounter);
-
-		} catch (e) {
-			console.log("failed at parsing data - abort! abort!");
-		}
-	});
+	// if (!dataDisplayed["#staticdatadisplayer"])
+	// {
+	// 	$.MessageBox({
+	// 	    message : "At least click on a word first..."
+	// 	});
+	// 	return;
+	// }
+	// // $("[data-lemma='" + dataDisplayed["#staticdatadisplayer"].lemma + "']").toggleClass("highlightLemma");
+	//
+	// var objectorder = ["person", "tense", "voice", "mood", "case", "number", "gender", "degree"];
+	// // var anythingObject = {"person": ".", "tense": ".", "voice": ".", "mood": ".", "case": ".", "number": ".", "gender": ".", "degree": "."};
+	// var formStructure = [
+	// 	{"name": "person", "elements": [{"value": "1", "option": "1st"}, {"value": "2", "option": "2nd"}, {"value": "3", "option": "3rd"}]},
+	// 	{"name": "tense", "elements": [{"value": "P", "option": "present"}, {"value": "I", "option": "imperfect"}, {"value": "F", "option": "future"}, {"value": "A", "option": "aorist"}, {"value": "X", "option": "perfect"}, {"value": "Y", "option": "pluperfect"}]},
+	// 	{"name": "voice", "elements": [{"value": "A", "option": "active"}, {"value": "M", "option": "middle"}, {"value": "P", "option": "passive"}]},
+	// 	{"name": "mood", "elements": [{"value": "I", "option": "indicative"}, {"value": "D", "option": "imperative"}, {"value": "S", "option": "subjunctive"}, {"value": "O", "option": "optative"}, {"value": "N", "option": "infinitive"}, {"value": "P", "option": "participle"}]},
+	// 	{"name": "case", "elements": [{"value": "N", "option": "nominative"}, {"value": "G", "option": "genitive"}, {"value": "D", "option": "dative"}, {"value": "A", "option": "accusative"}]},
+	// 	{"name": "number", "elements": [{"value": "S", "option": "singular"}, {"value": "P", "option": "plural"}]},
+	// 	{"name": "gender", "elements": [{"value": "M", "option": "masculine"}, {"value": "F", "option": "feminine"}, {"value": "N", "option": "neuter"}]},
+	// 	{"name": "degree", "elements": [{"value": "C", "option": "comparative"}, {"value": "S", "option": "superlative"}]}
+	// ];
+	//
+	// var $form = $("<div>");
+	//
+	// var $txtCollectionName = $("<input>")
+	// 	.attr("type", "text")
+	// 	.attr("name", "collectionName")
+	// 	.attr("placeholder", "name this collection");
+	//
+	// var $txtlemma = $("<input>")
+	// 	.attr("type", "text")
+	// 	.attr("name", "lemma")
+	// 	.attr("placeholder", "lemma (clear=any)")
+	// 	.val(dataDisplayed[".static.dataDisplayer"].lemma);
+	//
+	// $form.append($txtCollectionName)
+	// 	 .append($txtlemma)
+	//      .append($("<br>"));
+	//
+	// formStructure.forEach(function(e){
+	// 	var $select = $("<select>").attr("name", e.name);
+	// 	$select.append($("<option style='display:none;'>").val(".").text(e.name).attr("selected", ""));
+	// 	$select.append($("<option>").val(".").text("any"));
+	// 	e.elements.forEach(function(e){
+	// 		$select.append($("<option>").val(e.value).text(e.option));
+	// 	});
+	// 	$form.append($select);
+	// });
+	//
+	// var reserialize = function(){
+	// 	var $formElements = $form.children().filter(":input");
+	// 	var serializedObject = {};
+	// 	$($formElements).each(function () {
+	// 		serializedObject[this.name] = $(this).val();
+	// 	});
+	// 	var value = JSON.stringify(serializedObject);
+	// 	$form.val(value);
+	// };
+	// reserialize();
+	//
+	// $form.on("change", reserialize);
+	//
+	// // Show a MessageBox with custom Input
+	// $.MessageBox({
+	//     message : "What would you like to highlight?:",
+	// 	buttonDone  : "Highlight!",
+	// 	buttonFail  : "Cancel",
+	//     input   : $form
+	// }).done(function(data){
+	// 	try {
+	// 		var parsedData = JSON.parse(data);
+	// 		// parsedData = $.extend(anythingObject, parsedData);
+	// 		var regex = "";
+	// 		objectorder.forEach(function(e){
+	// 			regex += parsedData[e];
+	// 		});
+	// 		console.log(parsedData.collectionName);
+	// 		console.log(parsedData.lemma);
+	// 		console.log(regex);
+	// 		var $words = $(".wordItself");
+	// 		if (regex != "........")
+	// 			$words = $words.filter(":regex(data-morphology-two," + regex + ")");
+	// 		if (parsedData.lemma !== "")
+	// 			$words = $words.filter("[data-lemma='" + parsedData.lemma + "']");
+	// 		$words.css("background-color", primarycolours[highlightCounter++]);
+	// 		$words.addClass("regexHighlighted");
+	// 		$words.attr("data-highlight-index", highlightCounter);
+	//
+	// 	} catch (e) {
+	// 		console.log("failed at parsing data - abort! abort!");
+	// 	}
+	// });
 }).on("click", ".regexHighlighted", function(){
 	var highlightIndex = $(this).attr("data-highlight-index");
 	$.MessageBox({
@@ -334,3 +406,29 @@ jQuery.expr[':'].regex = function(elem, index, match) {
         regex = new RegExp(matchParams.join('').replace(/^\s+|\s+$/g,''), regexFlags);
     return regex.test(jQuery(elem)[attr.method](attr.property));
 };
+
+
+$(function() {
+
+    var $sidebar   = $(".sidebar"),
+        $window    = $(window),
+        offset     = $sidebar.offset(),
+        topPadding = 35;
+
+	var stillScrollingTimer;
+    $window.scroll(function() {
+		window.clearTimeout(stillScrollingTimer);
+		stillScrollingTimer = window.setTimeout(function(){
+	        if ($window.scrollTop() > offset.top) {
+	            $sidebar.stop().animate({
+	                marginTop: $window.scrollTop() - offset.top + topPadding
+	            });
+	        } else {
+	            $sidebar.stop().animate({
+	                marginTop: 0
+	            });
+	        }
+		}, 100);
+    });
+
+});

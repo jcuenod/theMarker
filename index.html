@@ -3,15 +3,16 @@
 	<head>
 		<title>The Marker | Making Short Work of Long Works</title>
 		<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="css/normalize.css" />
+		<link rel="stylesheet" href="css/skeleton.css" />
 		<link rel="stylesheet" href="css/messagebox.css" />
+		<link rel="stylesheet" href="css/style.css" />
 		<script src="js/jquery-2.2.0.min.js"></script>
 		<script src="js/messagebox.min.js"></script>
 		<script src="js/themarker.js"></script>
 	</head>
 	<body>
-		<div style="position:fixed; left: 0; top: 0; padding: 10px 30px;" id="mkhead">
-			<h1 class="title">themarker</h1>
+		<!-- <div style="position:fixed; left: 0; top: 0; padding: 10px 30px;" id="mkhead">
 			<div class="highlightsettings" style="display: none;">
 				<div class="highlightrow"><span id="primaryhighlight_warning" class="warning">!</span><input type="text" id="primaryhighlight" /><input type="radio" name="autoadd" value="#primaryhighlight" /></div>
 				<div class="highlightrow"><span id="secondaryhighlight_warning" class="warning">!</span><input type="text" id="secondaryhighlight" /><input type="radio" name="autoadd" value="#secondaryhighlight" /></div>
@@ -21,19 +22,39 @@
 				<div class="highlightrow">[Don't auto add: <input type="radio" name="autoadd" value="null" checked />]</div>
 			</div>
 			<div class="highlightbuttons" style="display: none;"><input type="button" value="HIGHLIGHT!" onclick="highlight()"><input type="button" value="CLEAR!" onclick="clearHighlights()"></div>
+		</div> -->
+		<div class="navReference">
+			<div class="verseReference">
+				<span class="referenceBook"></span> <span class="referenceVerse"></span>
+			</div>
+			<span id="chapterButtons" style="float: right; clear: both;"></span>
 		</div>
-		<div style="position: fixed; right: 0; top: 0; padding: 5px 10px;">
-			<div id="chapterButtons" style="float: right; clear: both;"></div>
-			<div id="staticdatadisplayer" style="padding: 0 10px; float: right; clear: both;">Static [click to change]</div>
-			<div id="dynamicdatadisplayer" style="padding: 0 10px; float: right; clear: both;">Dyanmic [mouseover to change]</div>
-			<div id="versereference" style="float:right; clear: both;"><button class="btnHighlightSomething"
-			>Highlight Something!</button>&nbsp;<button class="loadNewBook"
-			>Load Book</button>&nbsp;&nbsp;<h4 style="margin: 0; display: inline-block"><span class="bookname"></span> <span id="location"></span></h4></div>
+		<div class="rightHeader">
+			<div class="unit">
+				<button class="loadNewBook">Load Book</button>
+			</div>
+			<div class="unit">
+				<div class="static dataDisplayer">Static [click to change]</div>
+				<div class="dynamic dataDisplayer">Dyanmic [mouseover to change]</div>
+			</div>
 		</div>
-		<div class="contentmain">
+		<div class="container">
+			<div class="row">
+				<div class="twelve column">
+					<h1 class="title">themarker</h1>
+				</div>
+			</div>
+			<div class="row">
+				<div class="contentmain eight columns"></div>
+				<div class="sidebar four columns">
+					<div class="highlightOptions"></div>
+					<button class="btnHighlightSomething u-full-width">Highlight Something!</button>
+				</div>
+			</div>
 		</div>
-		<div id="loading" style="text-align: center; position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(54, 54, 80, 0.7); padding-top:20%; color: yellow;">
-			<h1>Loading...</h1>
+
+		<div class="loadingOverlay">
+			Loading...
 		</div>
 	</body>
 </html>
