@@ -283,7 +283,9 @@ $(document).ready(function() {
 		buttonFail  : "No",
 		message     : "Would you like to clear these highlights?"
 	}).done(function(){
-		$(".regexHighlighted").filter("[data-highlight-index=" + highlightIndex + "]").removeAttr( 'style' );
+		$(".regexHighlighted").filter("[data-highlight-index=" + highlightIndex + "]")
+			.removeAttr("style")
+			.removeClass("regexHighlighted");
 	});
 });
 
