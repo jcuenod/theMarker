@@ -12,10 +12,37 @@ var primarycolours = ["SteelBlue", "Aqua", "MediumTurquoise", "PaleTurquoise", "
 // var fifthcolours = ["BlueViolet", "Purple", "Thistle", "Plum", "Violet", "MediumOrchid", "MediumPurple"];
 
 var bibleData;
+var dictionaryData;
 
 var $form = $("<div>");
 var dataDisplayed = [];
 var highlightCounter = 0;
+
+var formStructure = [
+	{"name": "person", "elements": [{"value": "1", "option": "1st"}, {"value": "2", "option": "2nd"}, {"value": "3", "option": "3rd"}]},
+	{"name": "tense", "elements": [{"value": "P", "option": "present"}, {"value": "I", "option": "imperfect"}, {"value": "F", "option": "future"}, {"value": "A", "option": "aorist"}, {"value": "X", "option": "perfect"}, {"value": "Y", "option": "pluperfect"}]},
+	{"name": "voice", "elements": [{"value": "A", "option": "active"}, {"value": "M", "option": "middle"}, {"value": "P", "option": "passive"}]},
+	{"name": "mood", "elements": [{"value": "I", "option": "indicative"}, {"value": "D", "option": "imperative"}, {"value": "S", "option": "subjunctive"}, {"value": "O", "option": "optative"}, {"value": "N", "option": "infinitive"}, {"value": "P", "option": "participle"}]},
+	{"name": "case", "elements": [{"value": "N", "option": "nominative"}, {"value": "G", "option": "genitive"}, {"value": "D", "option": "dative"}, {"value": "A", "option": "accusative"}]},
+	{"name": "number", "elements": [{"value": "S", "option": "singular"}, {"value": "P", "option": "plural"}]},
+	{"name": "gender", "elements": [{"value": "M", "option": "masculine"}, {"value": "F", "option": "feminine"}, {"value": "N", "option": "neuter"}]},
+	{"name": "degree", "elements": [{"value": "C", "option": "comparative"}, {"value": "S", "option": "superlative"}]}
+];
+var partsOfSpeech = {
+	"A-": "Adjective",
+	"C-": "Conjunction",
+	"D-": "Adverb",
+	"I-": "Interjection",
+	"N-": "Noun",
+	"P-": "Preposition",
+	"RA": "Definite Article",
+	"RD": "Demonstrative Pronoun",
+	"RI": "Interrogative/Indefinite Pronoun",
+	"RP": "Personal Pronoun",
+	"RR": "Relative Pronoun",
+	"V-": "Verb",
+	"X-": "Particle"
+};
 
 // function highlight()
 // {
@@ -49,7 +76,7 @@ var highlightCounter = 0;
 // 	}
 // }
 
-function displaydata(object, destination)
+function displaydata(object, destination, extended)
 {
 	var position = {
 		"wordIndexInVerse": $(object).attr("data-word-index-in-verse"),
@@ -62,7 +89,39 @@ function displaydata(object, destination)
 
 	if (dataWord.lemma)
 	{
-		$(destination).html(dataWord.lemma + "<br />" + dataWord.morphologyOne + " : " + dataWord.morphologyTwo);
+		if (!extended)
+		{
+			$(destination).html(dataWord.lemma);
+		}
+		else {
+			var $posTitle = $("<h1>").text("Part of Speech");
+			var $parsingTitle = $("<h1>").text("Parsing");
+			var $parsingDetails = $("<div>");
+			var findObjectWithValue = function(obj, value) {
+				return $.grep(obj, function(e){ return e.value == value; })[0];
+			};
+			if (dataWord.morphologyTwo !== "--------")
+			{
+				for (var i = 0; i < 8; i++) {
+					var ci = dataWord.morphologyTwo[i];
+					if (ci == '-')
+						continue;
+					var detail = findObjectWithValue(formStructure[i].elements, ci);
+					$parsingDetails.append($("<b>").text(formStructure[i].name.toUpperCase() + ": "))
+					.append(detail.option)
+					.append($("<br>"));
+				}
+				$(".parsingData").empty().append($posTitle)
+					.append($("<div>").text(partsOfSpeech[dataWord.morphologyOne]))
+					.append($parsingTitle)
+					.append($parsingDetails);
+			}
+			else {
+				$(".parsingData").empty().append($posTitle)
+					.append($("<div>").text(partsOfSpeech[dataWord.morphologyOne]));
+			}
+			$(destination).html(dataWord.lemma);
+		}
 	}
 	return dataWord;
 }
@@ -142,16 +201,6 @@ function showLoad()
 		});
 	});
 }
-var formStructure = [
-	{"name": "person", "elements": [{"value": "1", "option": "1st"}, {"value": "2", "option": "2nd"}, {"value": "3", "option": "3rd"}]},
-	{"name": "tense", "elements": [{"value": "P", "option": "present"}, {"value": "I", "option": "imperfect"}, {"value": "F", "option": "future"}, {"value": "A", "option": "aorist"}, {"value": "X", "option": "perfect"}, {"value": "Y", "option": "pluperfect"}]},
-	{"name": "voice", "elements": [{"value": "A", "option": "active"}, {"value": "M", "option": "middle"}, {"value": "P", "option": "passive"}]},
-	{"name": "mood", "elements": [{"value": "I", "option": "indicative"}, {"value": "D", "option": "imperative"}, {"value": "S", "option": "subjunctive"}, {"value": "O", "option": "optative"}, {"value": "N", "option": "infinitive"}, {"value": "P", "option": "participle"}]},
-	{"name": "case", "elements": [{"value": "N", "option": "nominative"}, {"value": "G", "option": "genitive"}, {"value": "D", "option": "dative"}, {"value": "A", "option": "accusative"}]},
-	{"name": "number", "elements": [{"value": "S", "option": "singular"}, {"value": "P", "option": "plural"}]},
-	{"name": "gender", "elements": [{"value": "M", "option": "masculine"}, {"value": "F", "option": "feminine"}, {"value": "N", "option": "neuter"}]},
-	{"name": "degree", "elements": [{"value": "C", "option": "comparative"}, {"value": "S", "option": "superlative"}]}
-];
 function buildForm()
 {
 	$form.empty();
@@ -207,11 +256,15 @@ $(document).ready(function() {
 	showLoad();
 	buildForm();
 
+	$.getJSON("json/dictionary.json", function(data){
+		dictionaryData = data;
+	});
+
 
 }).on("click", ".loadNewBook", function(){
 	showLoad();
 }).on("click", ".wordItself", function(){
-	dataDisplayed = displaydata($(this), ".static.dataDisplayer");
+	dataDisplayed = displaydata($(this), ".static.dataDisplayer", true);
 
 	// if ($(this).attr("strongsnumber"))
 	// {
@@ -264,7 +317,7 @@ $(document).ready(function() {
 
 	$(".referenceVerse").html(chapterNumber + ":" + verseNumber);
 
-	displaydata($(this), ".dynamic.dataDisplayer");
+	// displaydata($(this), ".dynamic.dataDisplayer", false);
 }).on("click", ".btnHighlightSomething", function() {
 	var $formElements = $form.children().filter(":input");
 	var formData = {};
@@ -380,6 +433,13 @@ $(document).ready(function() {
 	// 		console.log("failed at parsing data - abort! abort!");
 	// 	}
 	// });
+}).on("click", ".showDefinition", function(){
+	var $title = $("<h1>").text(dataDisplayed.lemma);
+	var $msg = $("<p>").text(dictionaryData[normalizePolytonicGreekToLowerCase(dataDisplayed.lemma)].definition);
+	$msg.prepend($("<b>").text("Definition: "));
+	$.MessageBox({
+		message: $("<div>").addClass("definition").append($title).append($msg)
+	});
 }).on("click", ".regexHighlighted", function(){
 	var highlightIndex = $(this).attr("data-highlight-index");
 	$.MessageBox({
@@ -432,3 +492,15 @@ $(function() {
     });
 
 });
+
+function normalizePolytonicGreekToLowerCase(text) {
+	text = text.replace(/[ΆΑάἀἁἂἃἄἅἆἇὰάᾀᾁᾂᾃᾄᾅᾆᾇᾰᾱᾲᾳᾴᾶᾷἈἉἊἋἌἍἎἏᾈᾉᾊᾋᾌᾍᾎᾏᾸᾹᾺΆᾼ]/g,'α');
+	text = text.replace(/[ΈΕέἐἑἒἓἔἕὲέἘἙἚἛἜἝῈΈ]/g,'ε');
+	text = text.replace(/[ΉΗήἠἡἢἣἤἥἦἧὴήᾐᾑᾒᾓᾔᾕᾖᾗῂῃῄῆῇἨἩἪἫἬἭἮἯᾘᾙᾚᾛᾜᾝᾞᾟῊΉῌ]/g,'η');
+	text = text.replace(/[ΊΪΙίΐἰἱἲἳἴἵἶἷὶίῐῑῒΐῖῗἸἹἺἻἼἽἾἿῘῙῚΊ]/g,'ι');
+	text = text.replace(/[ΌΟόὀὁὂὃὄὅὸόὈὉὊὋὌὍῸΌ]/g,'ο');
+	text = text.replace(/[ΎΫΥΰϋύὐὑὒὓὔὕὖὗὺύῠῡῢΰῦῧὙὛὝὟῨῩῪΎ]/g,'υ');
+	text = text.replace(/[ΏΩώὠὡὢὣὤὥὦὧὼώᾠᾡᾢᾣᾤᾥᾦᾧῲῳῴῶῷὨὩὪὫὬὭὮὯᾨᾩᾪᾫᾬᾭᾮᾯῺΏῼ]/g,'ω');
+	text = text.replace(/[ῤῥῬ]/g,'ρ');
+	return text.toLowerCase();
+}

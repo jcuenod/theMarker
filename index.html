@@ -5,9 +5,11 @@
 		<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 		<link rel="stylesheet" href="css/normalize.css" />
 		<link rel="stylesheet" href="css/skeleton.css" />
+		<link rel="stylesheet" href="css/skeleton-tabs.css">
 		<link rel="stylesheet" href="css/messagebox.css" />
 		<link rel="stylesheet" href="css/style.css" />
 		<script src="js/jquery-2.2.0.min.js"></script>
+		<script src="js/skeleton-tabs.js"></script>
 		<script src="js/messagebox.min.js"></script>
 		<script src="js/themarker.js"></script>
 	</head>
@@ -29,26 +31,38 @@
 			</div>
 			<span id="chapterButtons" style="float: right; clear: both;"></span>
 		</div>
-		<div class="rightHeader">
-			<div class="unit">
-				<button class="loadNewBook">Load Book</button>
-			</div>
-			<div class="unit">
-				<div class="dynamic dataDisplayer">[mouseover text details]</div>
-				<div class="static dataDisplayer">[click to change]</div>
-			</div>
-		</div>
+		<button class="loadNewBook">Load New Book</button>
 		<div class="container">
 			<div class="row">
-				<div class="twelve column">
-					<h1 class="title"><img src="images/logo.svg" /></h1>
+				<div class="twelve columns">
+					<img src="images/logo.svg" />
 				</div>
 			</div>
 			<div class="row">
+
 				<div class="contentmain eight columns"></div>
 				<div class="sidebar four columns">
-					<div class="highlightOptions"></div>
-					<button class="btnHighlightSomething u-full-width">Highlight Something!</button>
+					<ul class="tab-nav">
+						<li>
+							<a class="button active" href="#one">Greek Info</a>
+						</li>
+						<li>
+							<a class="button" href="#two">Highlight</a>
+						</li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="one">
+							<!-- <div class="dynamic dataDisplayer">[mouseover text details]</div> -->
+							<h1 class="static dataDisplayer">[click to change]</h1>
+							<button class="showDefinition u-full-width">Show Definition</button>
+							<div class="parsingData"></div>
+						</div>
+						<div class="tab-pane" id="two">
+							<div class="highlightOptions"></div>
+							<button class="btnHighlightSomething u-full-width">Highlight Something!</button>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</div>
