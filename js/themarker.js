@@ -7,7 +7,7 @@ var $form = $("<div>");
 var dataDisplayed = [];
 var highlightCounter = 0;
 
-var formStructure = [
+var parsingDefintionObject = [
 	{"name": "person", "elements": [{"value": "1", "option": "1st"}, {"value": "2", "option": "2nd"}, {"value": "3", "option": "3rd"}]},
 	{"name": "tense", "elements": [{"value": "P", "option": "present"}, {"value": "I", "option": "imperfect"}, {"value": "F", "option": "future"}, {"value": "A", "option": "aorist"}, {"value": "X", "option": "perfect"}, {"value": "Y", "option": "pluperfect"}]},
 	{"name": "voice", "elements": [{"value": "A", "option": "active"}, {"value": "M", "option": "middle"}, {"value": "P", "option": "passive"}]},
@@ -63,8 +63,8 @@ function displaydata(object, destination, extended)
 					var ci = dataWord.morphologyTwo[i];
 					if (ci == '-')
 						continue;
-					var detail = findObjectWithValue(formStructure[i].elements, ci);
-					$parsingDetails.append($("<b>").text(formStructure[i].name.toUpperCase() + ": "))
+					var detail = findObjectWithValue(parsingDefintionObject[i].elements, ci);
+					$parsingDetails.append($("<b>").text(parsingDefintionObject[i].name.toUpperCase() + ": "))
 					.append(detail.option)
 					.append($("<br>"));
 				}
@@ -163,7 +163,7 @@ function buildForm()
 		 .append($txtlemma)
 		 .append($("<br>"));
 
-	formStructure.forEach(function(e){
+	parsingDefintionObject.forEach(function(e){
 		var $select = $("<select>").attr("name", e.name).addClass("u-full-width");
 		$select.append($("<option style='display:none;'>").val(".").text(e.name).attr("selected", ""));
 		$select.append($("<option>").val(".").text("any"));
@@ -199,7 +199,7 @@ $(document).ready(function() {
 		formData[this.name] = $(this).val();
 	});
 	var regex = "";
-	formStructure.forEach(function(e){
+	parsingDefintionObject.forEach(function(e){
 		regex += formData[e.name];
 	});
 	console.log(formData.collectionName);
