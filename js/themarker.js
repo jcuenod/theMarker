@@ -187,6 +187,8 @@ $(document).ready(function() {
 	showLoad();
 }).on("click", ".wordItself", function(){
 	dataDisplayed = displaydata($(this), ".static.dataDisplayer", true);
+	$(".selectedWord").removeClass("selectedWord");
+	$(this).addClass("selectedWord");
 }).on("mouseover", ".verse > span", function(e) {
 	var verseNumber = $(e.target).parent().attr("data-verse-number");
 	var chapterNumber = $(e.target).parent().parent().attr("data-chapter-number");
