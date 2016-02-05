@@ -97,6 +97,13 @@
     padding: 0 10px 0 0;
     line-height: 100%;
 }
+.verse:hover {
+	color: #116;
+}
+.verse:hover:before {
+	color: #a00;
+	font-weight: bold;
+}
 .verse:before {
 	content: attr(data-verse-number);
 	display: inline-block;
@@ -110,9 +117,6 @@
 .wordItself {
 	position: relative;
 	cursor: pointer;
-}
-.verse:hover {
-	color: #116;
 }
 .wordItself:hover:before {
 	position: absolute;
