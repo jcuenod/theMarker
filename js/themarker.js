@@ -51,9 +51,9 @@ function displaydata(object, destination, extended)
 			$(destination).html(dataWord.lemma);
 		}
 		else {
-			var $posTitle = $("<h1>").text("Part of Speech");
-			var $parsingTitle = $("<h1>").text("Parsing");
-			var $parsingDetails = $("<div>");
+			var $posTitle = $("<div>").addClass("definitionTitle").text("Part of Speech");
+			var $parsingTitle = $("<div>").addClass("definitionTitle").text("Parsing");
+			var $parsingDetail = $("<div>").addClass("definitionDetail");
 			var findObjectWithValue = function(obj, value) {
 				return $.grep(obj, function(e){ return e.value == value; })[0];
 			};
@@ -64,14 +64,15 @@ function displaydata(object, destination, extended)
 					if (ci == '-')
 						continue;
 					var detail = findObjectWithValue(parsingDefintionObject[i].elements, ci);
-					$parsingDetails.append($("<b>").text(parsingDefintionObject[i].name.toUpperCase() + ": "))
+					$parsingDetail.append($("<b>").text(parsingDefintionObject[i].name.toUpperCase() + ": "))
 					.append(detail.option)
 					.append($("<br>"));
 				}
+				var $posDetail = $("<div>").addClass("definitionDetail").text(partsOfSpeech[dataWord.morphologyOne]);
 				$(".parsingData").empty().append($posTitle)
-					.append($("<div>").text(partsOfSpeech[dataWord.morphologyOne]))
+					.append($posDetail)
 					.append($parsingTitle)
-					.append($parsingDetails);
+					.append($parsingDetail);
 			}
 			else {
 				$(".parsingData").empty().append($posTitle)
@@ -107,11 +108,14 @@ function showLoad()
 		buttonFail  : "Cancel",
 		input   : $select
 	}).done(function(data){
+		var bookName = data;
 		$(".loadingOverlay").show();
-		$(".referenceBook").text(data);
 		$.getJSON("json/" + data + ".json", function(data){
+			$(window).scrollTop(0);
 			$(".contentmain").empty();
 			$("#chapterButtons").empty();
+			$(".referenceBook").text(bookName);
+			$(".referenceVerse").text("");
 			bibleData = data;
 			data.chapters.forEach(function(chapter){
 				if (chapter.verses.length === 1)
@@ -144,6 +148,7 @@ function showLoad()
 					.addClass("chapterLink")
 				);
 			});
+			window.setTimeout(setVerseRange, 1000);
 			$(".loadingOverlay").fadeOut();
 		});
 	});
@@ -190,9 +195,9 @@ $(document).ready(function() {
 	$(".selectedWord").removeClass("selectedWord");
 	$(this).addClass("selectedWord");
 }).on("mouseover", ".verse > span", function(e) {
-	var verseNumber = $(e.target).parent().attr("data-verse-number");
-	var chapterNumber = $(e.target).parent().parent().attr("data-chapter-number");
-	$(".referenceVerse").html(chapterNumber + ":" + verseNumber);
+	// var verseNumber = $(e.target).parent().attr("data-verse-number");
+	// var chapterNumber = $(e.target).parent().parent().attr("data-chapter-number");
+	// $(".referenceVerse").html(chapterNumber + ":" + verseNumber);
 	// displaydata($(this), ".dynamic.dataDisplayer", false);
 }).on("click", ".btnHighlightSomething", function() {
 	var $formElements = $form.children().filter(":input");
@@ -216,7 +221,7 @@ $(document).ready(function() {
 	$words.addClass("regexHighlighted");
 	$words.attr("data-highlight-index", highlightCounter);
 }).on("click", ".showDefinition", function(){
-	var $title = $("<h1>").text(dataDisplayed.lemma);
+	var $title = $("<div>").addClass("definitionTitle").text(dataDisplayed.lemma);
 	var $msg = $("<p>").text(dictionaryData[normalizePolytonicGreekToLowerCase(dataDisplayed.lemma)].definition);
 	$msg.prepend($("<b>").text("Definition: "));
 	$.MessageBox({
@@ -250,7 +255,6 @@ jQuery.expr[':'].regex = function(elem, index, match) {
 };
 
 $(function() {
-
     var $sidebar   = $(".sidebar"),
         $window    = $(window),
         offset     = $sidebar.offset(),
@@ -270,6 +274,7 @@ $(function() {
 	            });
 	        }
 		}, 100);
+		setVerseRange();
     });
 
 });
@@ -284,4 +289,53 @@ function normalizePolytonicGreekToLowerCase(text) {
 	text = text.replace(/[ΏΩώὠὡὢὣὤὥὦὧὼώᾠᾡᾢᾣᾤᾥᾦᾧῲῳῴῶῷὨὩὪὫὬὭὮὯᾨᾩᾪᾫᾬᾭᾮᾯῺΏῼ]/g,'ω');
 	text = text.replace(/[ῤῥῬ]/g,'ρ');
 	return text.toLowerCase();
+}
+
+function setVerseRange()
+{
+	var element = getExtremeElement(false);
+	if (element === 0)
+	{
+		$(".referenceVerse").html("");
+	}
+	else {
+		var earliestPoint = $(element).parent().parent().attr("data-chapter-number") + ":" + $(element).parent().attr("data-verse-number");
+		element = getExtremeElement(true);
+		var latestPoint = $(element).parent().parent().attr("data-chapter-number") + ":" + $(element).parent().attr("data-verse-number");
+		$(".referenceVerse").html(earliestPoint + "-" + latestPoint);
+	}
+}
+function getExtremeElement(invertDirection){
+	if ($(".contentmain").is(':empty'))
+		return 0;
+	var contentRect = $(".contentmain")[0].getBoundingClientRect();
+	var leftmost = contentRect.left;
+	var rightmost = contentRect.left + contentRect.width;
+
+	var options = {
+		'xDefault': !invertDirection ? leftmost : rightmost,
+		'yDefault': !invertDirection ? 10 : contentRect.top + contentRect.height - 10,
+		'xMax': !invertDirection ? rightmost : leftmost,
+		'yMax': !invertDirection ? contentRect.top + contentRect.height - 10 : 10,
+		'xDelta': !invertDirection ? 30 : -30,
+		'yDelta': !invertDirection ? 12 : -12,
+	};
+	var element,
+		x = options.xDefault,
+		y = options.yDefault;
+	do {
+		element = document.elementFromPoint(x, y);
+		x += options.xDelta;
+		if ((x >= options.xMax && !invertDirection) || (x <= options.xMax && invertDirection))
+		{
+			x = options.xDefault;
+			y += options.yDelta;
+			if ((y > options.yMax && !invertDirection) || (y < options.yMax && invertDirection))
+			{
+				console.log("fatal error finding point...");
+				break;
+			}
+		}
+	} while (!$(element).hasClass("wordItself"));
+	return element;
 }
