@@ -188,6 +188,38 @@ $(document).ready(function() {
 	});
 	showLoad();
 	buildForm();
+
+	var $sidebar   = $(".sidebar"),
+		$window    = $(window),
+		offset     = $sidebar.offset(),
+		topPadding = 35,
+		ticking    = false,
+		viewportHeight = $window.height();
+
+	$window.on("scroll", debounce(function(){
+		if(!ticking) {
+			requestAnimationFrame(function(){
+				var newScrollTop = $window.scrollTop();
+				var currentOffset = parseInt($sidebar.css("marginTop"), 10);
+				if (Math.abs(newScrollTop - currentOffset) > viewportHeight)
+				{
+					$sidebar.css("marginTop", currentOffset > newScrollTop ? newScrollTop + viewportHeight : newScrollTop - viewportHeight);
+				}
+				if (newScrollTop > offset.top) {
+					$sidebar.stop().animate({
+						marginTop: newScrollTop - offset.top + topPadding
+					});
+				} else {
+					$sidebar.stop().animate({
+						marginTop: 0
+					});
+				}
+				ticking = false;
+				setVerseRange();
+			});
+			ticking = true;
+		}
+	}, 250));
 }).on("click", ".loadNewBook", function(){
 	showLoad();
 }).on("click", ".wordItself", function(){
@@ -254,31 +286,6 @@ jQuery.expr[':'].regex = function(elem, index, match) {
     return regex.test(jQuery(elem)[attr.method](attr.property));
 };
 
-$(function() {
-    var $sidebar   = $(".sidebar"),
-        $window    = $(window),
-        offset     = $sidebar.offset(),
-        topPadding = 35;
-
-	var stillScrollingTimer;
-    $window.scroll(function() {
-		window.clearTimeout(stillScrollingTimer);
-		stillScrollingTimer = window.setTimeout(function(){
-	        if ($window.scrollTop() > offset.top) {
-	            $sidebar.stop().animate({
-	                marginTop: $window.scrollTop() - offset.top + topPadding
-	            });
-	        } else {
-	            $sidebar.stop().animate({
-	                marginTop: 0
-	            });
-	        }
-		}, 100);
-		setVerseRange();
-    });
-
-});
-
 function normalizePolytonicGreekToLowerCase(text) {
 	text = text.replace(/[ΆΑάἀἁἂἃἄἅἆἇὰάᾀᾁᾂᾃᾄᾅᾆᾇᾰᾱᾲᾳᾴᾶᾷἈἉἊἋἌἍἎἏᾈᾉᾊᾋᾌᾍᾎᾏᾸᾹᾺΆᾼ]/g,'α');
 	text = text.replace(/[ΈΕέἐἑἒἓἔἕὲέἘἙἚἛἜἝῈΈ]/g,'ε');
@@ -294,7 +301,7 @@ function normalizePolytonicGreekToLowerCase(text) {
 function setVerseRange()
 {
 	var element = getExtremeElement(false);
-	if (element === 0)
+	if (element <= 0)
 	{
 		$(".referenceVerse").html("");
 	}
@@ -302,6 +309,7 @@ function setVerseRange()
 		var earliestPoint = $(element).parent().parent().attr("data-chapter-number") + ":" + $(element).parent().attr("data-verse-number");
 		element = getExtremeElement(true);
 		var latestPoint = $(element).parent().parent().attr("data-chapter-number") + ":" + $(element).parent().attr("data-verse-number");
+		var message = earliestPoint == "undefined:undefined" ? (latestPoint == "undefined:undefined" ? "" : latestPoint) : earliestPoint + (latestPoint == "undefined:undefined" ? "" : "-" + latestPoint);
 		$(".referenceVerse").html(earliestPoint + "-" + latestPoint);
 	}
 }
@@ -333,9 +341,24 @@ function getExtremeElement(invertDirection){
 			if ((y > options.yMax && !invertDirection) || (y < options.yMax && invertDirection))
 			{
 				console.log("fatal error finding point...");
-				break;
+				return -1;
 			}
 		}
 	} while (!$(element).hasClass("wordItself"));
 	return element;
+}
+
+function debounce(func, wait, immediate) {
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+		var later = function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+		var callNow = immediate && !timeout;
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+		if (callNow) func.apply(context, args);
+	};
 }

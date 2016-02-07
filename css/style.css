@@ -26,6 +26,7 @@ body {
 	position: fixed;
 	left: 0;
 	top: 0;
+	right: 0;
 	padding: 5px 10px;
 	text-align: right;
 	z-index: 10;
@@ -110,18 +111,18 @@ body {
 .wordItself {
 	position: relative;
 	cursor: pointer;
-}
+}/*
 .wordItself:hover:before {
 	position: absolute;
 	display: block;
-	width: 70%;
-	height: 30%;
-	left: calc(50% - 35% - 3px);
-	top: calc(50% - 15%);
+	width: 20px;
+	height: 20px;
+	left: calc(50% - 12px - 3px);
+	top: calc(50% - 12px);
 	background-color: #bbb;
+	border: 4px solid #ace;
+	border-radius: 50%;
 	content: " ";
-	-webkit-filter: blur(4px);
-	filter: blur(4px);
 	z-index: -1;
 }
 .selectedWord:hover:before,
@@ -135,8 +136,6 @@ body {
 	top: calc(50% - 10px);
 	content: " ";
 	z-index: -1;
-	-webkit-filter: none;
-	filter: none;
 	border-radius: 50%;
-	transition: all 300ms ease;
 }
+*/
