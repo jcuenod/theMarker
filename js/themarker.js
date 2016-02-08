@@ -281,7 +281,7 @@ $(document).ready(function() {
 	$words.attr("data-highlight-index", highlightCounter);
 }).on("click", ".showDefinition", function(){
 	var $title = $("<div>").addClass("definitionTitle").text(dataDisplayed.lemma);
-	var $msg = $("<p>").text(dictionaryData[normalizePolytonicGreekToLowerCase(dataDisplayed.lemma)].definition);
+	var $msg = $("<p>").text(dictionaryData[dataDisplayed.lemma].definition);
 	$msg.prepend($("<b>").text("Definition: "));
 	$.MessageBox({
 		message: $("<div>").addClass("definition").append($title).append($msg)
