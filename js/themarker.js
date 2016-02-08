@@ -6,6 +6,7 @@ var dictionaryData;
 var $form = $("<div>");
 var dataDisplayed = [];
 var highlightCounter = 0;
+var viewportHeight;
 
 var parsingDefintionObject = [
 	{"name": "person", "elements": [{"value": "1", "option": "1st"}, {"value": "2", "option": "2nd"}, {"value": "3", "option": "3rd"}]},
@@ -148,7 +149,7 @@ function showLoad()
 					.addClass("chapterLink")
 				);
 			});
-			window.setTimeout(setVerseRange, 1000);
+			window.setTimeout(setVerseRange, 400);
 			$(".loadingOverlay").fadeOut();
 		});
 	});
@@ -193,8 +194,8 @@ $(document).ready(function() {
 		$window    = $(window),
 		offset     = $sidebar.offset(),
 		topPadding = 35,
-		ticking    = false,
-		viewportHeight = $window.height();
+		ticking    = false;
+	viewportHeight = $window.height();
 
 	$window.on("scroll", debounce(function(){
 		if(!ticking) {
@@ -215,9 +216,9 @@ $(document).ready(function() {
 					});
 				}
 				ticking = false;
-				setVerseRange();
 			});
 			ticking = true;
+			setVerseRange();
 		}
 	}, 250));
 }).on("click", ".loadNewBook", function(){
@@ -314,23 +315,26 @@ function setVerseRange()
 	}
 }
 function getExtremeElement(invertDirection){
+
 	if ($(".contentmain").is(':empty'))
 		return 0;
 	var contentRect = $(".contentmain")[0].getBoundingClientRect();
 	var leftmost = contentRect.left;
 	var rightmost = contentRect.left + contentRect.width;
+	var topmost = contentRect.top < 0 ? 10 : contentRect.top;
+	var bottommost = contentRect.bottom > viewportHeight ? viewportHeight - 10 : contentRect.bottom;
 
 	var options = {
 		'xDefault': !invertDirection ? leftmost : rightmost,
-		'yDefault': !invertDirection ? 10 : contentRect.top + contentRect.height - 10,
+		'yDefault': !invertDirection ? topmost : bottommost,
 		'xMax': !invertDirection ? rightmost : leftmost,
-		'yMax': !invertDirection ? contentRect.top + contentRect.height - 10 : 10,
+		'yMax': !invertDirection ? bottommost : topmost,
 		'xDelta': !invertDirection ? 30 : -30,
 		'yDelta': !invertDirection ? 12 : -12,
 	};
 	var element,
 		x = options.xDefault,
-		y = options.yDefault;
+		y = options.yDefault, i = 0;
 	do {
 		element = document.elementFromPoint(x, y);
 		x += options.xDelta;
