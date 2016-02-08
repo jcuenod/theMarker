@@ -141,7 +141,7 @@ function showLoad()
 			$(window).scrollTop(0);
 			$(".contentmain").empty();
 			$("#chapterButtons").empty();
-			$(".referenceBook").text(bookName);
+			$(".referenceBook").text($.grep(bookList, function(b){ return b.value == bookName; })[0].bookName);
 			$(".referenceVerse").text("");
 			bibleData = data;
 			data.chapters.forEach(function(chapter){
@@ -281,7 +281,7 @@ $(document).ready(function() {
 	$words.attr("data-highlight-index", highlightCounter);
 }).on("click", ".showDefinition", function(){
 	var $title = $("<div>").addClass("definitionTitle").text(dataDisplayed.lemma);
-	var $msg = $("<p>").text(dictionaryData[dataDisplayed.lemma].definition);
+	var $msg = $("<p>").text(dictionaryData[normalizePolytonicGreekToLowerCase(dataDisplayed.lemma)].definition);
 	$msg.prepend($("<b>").text("Definition: "));
 	$.MessageBox({
 		message: $("<div>").addClass("definition").append($title).append($msg)
