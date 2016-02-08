@@ -8,6 +8,35 @@ var dataDisplayed = [];
 var highlightCounter = 0;
 var viewportHeight;
 
+var bookList = [{ "value": "matthew", "bookName": "Matthew" },
+	{ "value": "mark", "bookName": "Mark" },
+	{ "value": "luke", "bookName": "Luke" },
+	{ "value": "john", "bookName": "John" },
+	{ "value": "acts", "bookName": "Acts" },
+	{ "value": "romans", "bookName": "Romans" },
+	{ "value": "1corinthians", "bookName": "1 Corinthians" },
+	{ "value": "2corinthians", "bookName": "2 Corinthians" },
+	{ "value": "galatians", "bookName": "Galatians" },
+	{ "value": "ephesians", "bookName": "Ephesians" },
+	{ "value": "philippians", "bookName": "Philippians" },
+	{ "value": "colossians", "bookName": "Colossians" },
+	{ "value": "1thessalonians", "bookName": "1 Thessalonians" },
+	{ "value": "2thessalonians", "bookName": "2 Thessalonians" },
+	{ "value": "1timothy", "bookName": "1 Timothy" },
+	{ "value": "2timothy", "bookName": "2 Timothy" },
+	{ "value": "titus", "bookName": "Titus" },
+	{ "value": "philemon", "bookName": "Philemon" },
+	{ "value": "hebrews", "bookName": "Hebrews" },
+	{ "value": "james", "bookName": "James" },
+	{ "value": "1peter", "bookName": "1 Peter" },
+	{ "value": "2peter", "bookName": "2 Peter" },
+	{ "value": "1john", "bookName": "1 John" },
+	{ "value": "2john", "bookName": "2 John" },
+	{ "value": "3john", "bookName": "3 John" },
+	{ "value": "jude", "bookName": "Jude" },
+	{ "value": "revelation", "bookName": "Revelation" }
+];
+
 var parsingDefintionObject = [
 	{"name": "person", "elements": [{"value": "1", "option": "1st"}, {"value": "2", "option": "2nd"}, {"value": "3", "option": "3rd"}]},
 	{"name": "tense", "elements": [{"value": "P", "option": "present"}, {"value": "I", "option": "imperfect"}, {"value": "F", "option": "future"}, {"value": "A", "option": "aorist"}, {"value": "X", "option": "perfect"}, {"value": "Y", "option": "pluperfect"}]},
@@ -97,12 +126,9 @@ function inArray(elem, array) {
 function showLoad()
 {
 	var $select = $("<select>");
-	$select.append("<option value='matthew'>Matthew</option>");
-	$select.append("<option value='mark'>Mark</option>");
-	$select.append("<option value='luke'>Luke</option>");
-	$select.append("<option value='john'>John</option>");
-	$select.append("<option value='acts'>Acts</option>");
-	$select.append("<option value='galatians'>Galatians</option>");
+	bookList.forEach(function(book){
+		$select.append("<option value='" + book.value + "'>" + book.bookName + "</option>");
+	});
 	$.MessageBox({
 		message : "Choose an Option:",
 		buttonDone  : "Prepare to Mark",
