@@ -185,7 +185,7 @@ function buildForm()
 	var $txtlemma = $("<input>")
 		.attr("type", "text")
 		.attr("name", "lemma")
-		.attr("placeholder", "any lemma")
+		.attr("placeholder", "lexical form (any)")
 		.addClass("u-full-width")
 		.on("click", function(){
 			$(this).val(dataDisplayed.lemma);
@@ -297,8 +297,12 @@ $(document).ready(function() {
 			.removeAttr("style")
 			.removeClass("regexHighlighted");
 	});
+}).on("click", ".chapterLink", function(){
+    $('html, body').animate({
+		scrollTop: $("[name='" + $.attr(this, 'href').substring(1) + "']").offset().top - 34
+	}, 300, "linear");
+    return false;
 });
-
 
 jQuery.expr[':'].regex = function(elem, index, match) {
     var matchParams = match[3].split(','),
