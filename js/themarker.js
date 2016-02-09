@@ -2,6 +2,8 @@ var highlightColours = ["SteelBlue", "Aqua", "MediumTurquoise", "PaleTurquoise",
 
 var bibleData;
 var dictionaryData;
+var textSize;
+var textSizeArray = ["smallest", "small", "", "big", "bigger", "biggest"];
 
 var $form = $("<div>");
 var dataDisplayed = [];
@@ -223,6 +225,11 @@ $(document).ready(function() {
 	showLoad();
 	buildForm();
 
+	textSize = localStorage.getItem("textSize");
+	textSize = typeof textSize == "undefined" ? 2 : textSize;
+	$("#fontSizeSelector").val(textSize);
+	$(".contentmain").addClass(textSizeArray[textSize]);
+
 	var $sidebar	= $(".sidebar"),
 		$window		= $(window),
 		offset		= $sidebar.offset(),
@@ -309,6 +316,13 @@ $(document).ready(function() {
 		scrollTop: $("[name='" + $.attr(this, 'href').substring(1) + "']").offset().top - 34
 	}, 300, "linear");
 	return false;
+}).on("change", "#fontSizeSelector", function(){
+	var oldTextSize = textSize;
+	textSize = +$(this).val();
+	requestAnimationFrame(function(){
+		$(".contentmain").removeClass(textSizeArray[oldTextSize]).addClass(textSizeArray[textSize]);
+	});
+	localStorage.setItem("textSize", textSize);
 });
 
 jQuery.expr[':'].regex = function(elem, index, match) {

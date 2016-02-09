@@ -1,0 +1,12 @@
+.gearButton {
+	cursor: pointer;
+}
+.settings svg path {
+	fill: #ccc;
+	cursor: pointer;
+	z-index: 100;
+	transition: fill 300ms ease;
+}
+.settings:hover svg path {
+	fill: #aaa;
+}
