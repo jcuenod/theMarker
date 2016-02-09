@@ -1,0 +1,16 @@
+.highlightOptions input,
+.highlightOptions textarea,
+.highlightOptions select,
+.highlightOptions fieldset {
+margin-bottom: 0.9rem; }
+.highlightOptions input[type="email"],
+.highlightOptions input[type="number"],
+.highlightOptions input[type="search"],
+.highlightOptions input[type="text"],
+.highlightOptions input[type="tel"],
+.highlightOptions input[type="url"],
+.highlightOptions input[type="password"],
+.highlightOptions textarea,
+.highlightOptions select {
+  height: 32px;
+  padding: 3px 10px; }

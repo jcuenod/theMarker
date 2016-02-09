@@ -39,7 +39,24 @@ body {
 	width: 180px;
 	text-align: left;
 	font-weight: bold;
-	margin-left: 175px;
+}
+/* Larger than mobile */
+@media (min-width: 400px) {}
+	.verseReference {
+		margin-left: 7.5%;
+	}
+
+/* Larger than phablet */
+@media (min-width: 550px) {
+	.verseReference {
+		margin-left: 10%;
+	}
+}
+/* Larger than tablet */
+@media (min-width: 1200px) {
+	.verseReference {
+		margin-left: calc(50% - 480px);
+	}
 }
 .chapterLink {
 	padding: 3px;
