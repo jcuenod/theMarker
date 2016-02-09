@@ -214,20 +214,20 @@ $(document).ready(function() {
 		dictionaryData = data;
 	});
 
-    if (!FontDetect.isFontLoaded('SBL BibLit') && !FontDetect.isFontLoaded('SBL Greek'))
-    {
+	if (!FontDetect.isFontLoaded('SBL BibLit') && !FontDetect.isFontLoaded('SBL Greek'))
+	{
 		$.MessageBox({
 			message: "It's not required but you should really consider installing the SBL Biblit font for good looking Greek...<br />and if it doesn't look good, well that's you dumb fault isn't it?"
 		});
-    }
+	}
 	showLoad();
 	buildForm();
 
-	var $sidebar   = $(".sidebar"),
-		$window    = $(window),
-		offset     = $sidebar.offset(),
-		topPadding = 35,
-		ticking    = false;
+	var $sidebar	= $(".sidebar"),
+		$window		= $(window),
+		offset		= $sidebar.offset(),
+		topPadding	= 35,
+		ticking		= false;
 	viewportHeight = $window.height();
 
 	$window.on("scroll", debounce(function(){
@@ -298,30 +298,30 @@ $(document).ready(function() {
 	$.MessageBox({
 		buttonDone  : "Yes",
 		buttonFail  : "No",
-		message     : "Would you like to clear these highlights?"
+		message	 : "Would you like to clear these highlights?"
 	}).done(function(){
 		$(".regexHighlighted").filter("[data-highlight-index=" + highlightIndex + "]")
 			.removeAttr("style")
 			.removeClass("regexHighlighted");
 	});
 }).on("click", ".chapterLink", function(){
-    $('html, body').animate({
+	$('html, body').animate({
 		scrollTop: $("[name='" + $.attr(this, 'href').substring(1) + "']").offset().top - 34
 	}, 300, "linear");
-    return false;
+	return false;
 });
 
 jQuery.expr[':'].regex = function(elem, index, match) {
-    var matchParams = match[3].split(','),
-        validLabels = /^(data|css):/,
-        attr = {
-            method: matchParams[0].match(validLabels) ?
-                        matchParams[0].split(':')[0] : 'attr',
-            property: matchParams.shift().replace(validLabels,'')
-        },
-        regexFlags = 'ig',
-        regex = new RegExp(matchParams.join('').replace(/^\s+|\s+$/g,''), regexFlags);
-    return regex.test(jQuery(elem)[attr.method](attr.property));
+	var matchParams = match[3].split(','),
+		validLabels = /^(data|css):/,
+		attr = {
+			method: matchParams[0].match(validLabels) ?
+						matchParams[0].split(':')[0] : 'attr',
+			property: matchParams.shift().replace(validLabels,'')
+		},
+		regexFlags = 'ig',
+		regex = new RegExp(matchParams.join('').replace(/^\s+|\s+$/g,''), regexFlags);
+	return regex.test(jQuery(elem)[attr.method](attr.property));
 };
 
 function normalizePolytonicGreekToLowerCase(text) {
