@@ -54,12 +54,12 @@ body {
 }
 .dataDisplayer {
 	font-size: 150%;
-	font-family: "SBL Biblit";
+	font-family: "SBL Biblit", "SBL Greek";
 	letter-spacing: 1px;
 }
 .definition {
 	max-width: 60vw;
-	font-family: "SBL Biblit";
+	font-family: "SBL Biblit", "SBL Greek";
 }
 .definitionTitle {
 	margin-top: 0;
