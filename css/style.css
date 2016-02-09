@@ -189,3 +189,6 @@ input[type="range"]::-moz-range-track {
     #ccc 8%,
     #ccc 16.5%);
 }
+input[type=range]::-moz-focus-outer {
+    border: 0;
+}
