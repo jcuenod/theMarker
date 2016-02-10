@@ -158,15 +158,24 @@ function showLoad()
 						.addClass("verse")
 						.attr("data-verse-number", verse.verse);
 					verse.words.forEach(function(word){
-						$vElement.append(
-							$("<span>")
-							  .append(word.wordInText + ' ')
-							  .addClass("wordItself")
-							  .attr("data-word-index-in-verse", word.wordIndexInVerse)
-							  .attr("data-lemma", word.lemma)
-							  .attr("data-morphology-one", word.morphologyOne)
-							  .attr("data-morphology-two", word.morphologyTwo)
-						);
+						(word.wordInText + " ").split(/([^\x20-\x7E]+)/).forEach(function(bit){
+							if (bit.match(/[^\x20-\x7E]+/))
+							{
+								$vElement.append(
+									$("<span>")
+										.append(bit)
+										.addClass("wordItself")
+										.attr("data-word-index-in-verse", word.wordIndexInVerse)
+										.attr("data-lemma", word.lemma)
+										.attr("data-morphology-one", word.morphologyOne)
+										.attr("data-morphology-two", word.morphologyTwo)
+								);
+							}
+							else
+							{
+								$vElement.append(bit);
+							}
+						});
 					});
 					$chElement.append($vElement);
 				});

@@ -93,6 +93,7 @@ body {
 
 .contentmain {
 	font-family: "SBL Biblit";
+	font-size: 1.3em;
 }
 
 .chapter:before {
@@ -123,23 +124,23 @@ body {
 .wordItself {
 	position: relative;
 	cursor: pointer;
-	font-size: 1.3em;
 }
-.smallest .wordItself {
+.smallest {
 	font-size: 0.9em;
 }
-.small .wordItself {
+.small {
 	font-size: 1.1em;
 }
-.big .wordItself {
+.big {
 	font-size: 1.5em;
 }
-.bigger .wordItself {
+.bigger {
 	font-size: 1.7em;
 }
-.biggest .wordItself {
+.biggest {
 	font-size: 2em;
 }
+
 .settings {
 	top: 20px;
 	right: 20px;
@@ -171,16 +172,16 @@ body {
 	pointer-events: all;
 }
 .wordItself:hover {
-	color: #33f;
+	color: #33F;
 }
 .selectedWord:before {
 	position: absolute;
 	display: block;
-	background-color: #ace;
+	background-color: #ACE;
 	width: 1.5em;
 	height: 1.5em;
-	left: calc(50% - 0.75em - 0.08em);
-	top: calc(50% - 0.75em + 0.04em);
+	left: calc(50% - 0.75em);
+	top: calc(50% - 0.75em);
 	content: " ";
 	z-index: -1;
 	border-radius: 50%;
