@@ -219,7 +219,7 @@ $(document).ready(function() {
 	if (!FontDetect.isFontLoaded('SBL BibLit') && !FontDetect.isFontLoaded('SBL Greek'))
 	{
 		$.MessageBox({
-			message: "It's not required but you should really consider installing the SBL Biblit font for good looking Greek...<br />and if it doesn't look good, well that's you dumb fault isn't it?"
+			message: "It's not required but you should really consider installing the SBL Biblit font for good looking Greek...<br />and if it doesn't look good, well that's your dumb fault isn't it?"
 		});
 	}
 	showLoad();
