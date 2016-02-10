@@ -14,6 +14,7 @@
 		<script src="js/skeleton-tabs.js"></script>
 		<script src="js/messagebox.min.js"></script>
 		<script src="js/fontdetect.min.js"></script>
+		<script src="js/trapscroll.js"></script>
 		<script src="js/themarker.js"></script>
 	</head>
 	<body>
@@ -39,6 +40,7 @@
 			</div>
 			<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" class="gearButton"><path d="M15.84 29.5c-.8-.35-.8-1.26-1.18-1.87-.3-1-.6-2.1-1.85-1.98-.6-.24-1.3-.3-1.6.35-.7.66-1.2 1.48-2.1 1.94-1.3 0-2.4-1.23-3.5-1.98-.6-.87.4-1.8.6-2.67.9-1.1.2-2-.5-2.9-.9-.9-2.7-.1-3.9-.5-1-.6-.7-2.1-1.1-3.1-.5-1.2.6-1.9 1.5-2.1 1.2-.4 2.4-.7 2.3-2.16.3-.63.2-1.2-.4-1.57-.62-.7-1.43-1.3-1.9-2.17-.16-.8.55-1.4.87-1.97.5-.98 1.5-2.3 2.7-1.36.8.3 1.56.7 2.37 1 1.27-.6 2.34-1.44 1.9-3 0-.9-.27-2.33 1-2.55 1.26-.07 3.07-1.25 3.9.2.6.87.5 2.6 1.6 3 1.1.3 2.28.62 2.97-.67.83-1.2 2.3-2.2 3.5-.8.75.6 2.3 1.15 1.83 2.4-.5.9-1 1.94-1.3 3 .67.5.75 2.1 1.76 1.9 1.05.02 2.2-.36 3.2.05.96 1.05 1 2.8 1.02 4.13-.75 1-2.24 1.1-3.3 1.7-.4.7-1.1 2.3-.15 3 .95 1 2.93 2.2 1.46 3.7-.54.64-.8 1.5-1.5 2-.83.4-1.72-.3-2.5-.6-1.22-1-2.2-.1-3.3.6-.3 1.14.1 2.6-.22 3.8-.87 1-2.8 1-4.05 1.1zm-.2-9.94c2.9-.24 4.87-3.63 3.68-6.27-.85-2.3-3.66-3.6-5.92-2.6-1.75.6-3.1 2.5-2.94 4.5.05 2.6 2.63 4.7 5.2 4.3z"/></svg>
 		</div>
+
 		<div class="container">
 			<div class="row">
 				<div class="twelve columns">
@@ -48,7 +50,7 @@
 			<div class="row">
 
 				<div class="contentmain eight columns"></div>
-				<div class="sidebar four columns">
+				<div class="sidebar four columns trapScroll">
 					<ul class="tab-nav">
 						<li>
 							<a class="button active" href="#one">Greek Info</a>
@@ -72,6 +74,12 @@
 
 				</div>
 			</div>
+		</div><!-- container -->
+
+		<div class="searchResults trapScroll">
+			<div class="heading">Search Results</div>
+			<ul>
+			</ul>
 		</div>
 
 		<div class="loadingOverlay">

@@ -209,3 +209,45 @@ input[type="range"]::-moz-range-track {
 input[type=range]::-moz-focus-outer {
     border: 0;
 }
+
+
+.searchResults {
+  position: fixed;
+  background: #EEE;
+  width: 200px;
+  top: 0;
+  bottom: 0;
+  padding: 40px 1em 1em 1em;
+  left: calc(-200px - 1.3em);
+  transition: left 300ms ease;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.searchResults:hover {
+  left: 0;
+}
+
+.heading {
+	font-size: 1.5em;
+	color: #555;
+}
+.searchResults ul li {
+	list-style: none;
+	cursor: pointer;
+	padding: 1px 10px;
+	border-radius: 2px;
+	margin-bottom: 4px;
+}
+.searchResults ul li:hover {
+	background: #DDD;
+}
+
+.vref {
+	display: inline-block;
+	width: 25%;
+}
+.vword {
+	display: inline-block;
+	width: 75%;
+	font-family: "SBL Biblit", "SBL Greek";
+}

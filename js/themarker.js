@@ -261,6 +261,7 @@ $(document).ready(function() {
 			setVerseRange();
 		}
 	}, 250));
+	trapScroll({ onScrollEnd: function(){} });
 }).on("click", ".loadNewBook", function(){
 	showLoad();
 }).on("click", ".wordItself", function(){
@@ -282,17 +283,31 @@ $(document).ready(function() {
 	parsingDefintionObject.forEach(function(e){
 		regex += formData[e.name];
 	});
-	console.log(formData.collectionName);
-	console.log(formData.lemma);
-	console.log(regex);
+	// console.log(formData.collectionName);
+	// console.log(formData.lemma);
+	// console.log(regex);
 	var $words = $(".wordItself");
-	if (regex != "........")
-	$words = $words.filter(":regex(data-morphology-two," + regex + ")");
 	if (formData.lemma !== "")
-	$words = $words.filter("[data-lemma='" + formData.lemma + "']");
+		$words = $words.filter("[data-lemma='" + formData.lemma + "']");
+	if (regex != "........")
+		$words = $words.filter(":regex(data-morphology-two," + regex + ")");
 	$words.css("background-color", highlightColours[highlightCounter++]);
 	$words.addClass("regexHighlighted");
 	$words.attr("data-highlight-index", highlightCounter);
+
+	$searchResults = $(".searchResults ul");
+	$searchResults.empty();
+	$words.each(function(){
+		var chapterNum = $(this).parent().parent().attr("data-chapter-number"),
+			verseNum = $(this).parent().attr("data-verse-number"),
+			$tmpreference = $("<span>").addClass("vref")
+				.text(chapterNum + ":" + verseNum),
+			$liEl = $("<li>")
+				.append($tmpreference)
+				.append($("<span>").addClass("vword").text($(this).text()))
+				.data("wordAnchor", this);
+		$searchResults.append($liEl);
+	});
 }).on("click", ".showDefinition", function(){
 	var $title = $("<div>").addClass("definitionTitle").text(dataDisplayed.lemma);
 	var $msg = $("<p>").text(dictionaryData[normalizePolytonicGreekToLowerCase(dataDisplayed.lemma)].definition);
@@ -312,9 +327,8 @@ $(document).ready(function() {
 			.removeClass("regexHighlighted");
 	});
 }).on("click", ".chapterLink", function(){
-	$('html, body').animate({
-		scrollTop: $("[name='" + $.attr(this, 'href').substring(1) + "']").offset().top - 34
-	}, 300, "linear");
+	var newTop = $("[name='" + $.attr(this, 'href').substring(1) + "']").offset().top - 34;
+	scrollSomewhere(newTop);
 	return false;
 }).on("change", "#fontSizeSelector", function(){
 	var oldTextSize = textSize;
@@ -323,6 +337,8 @@ $(document).ready(function() {
 		$(".contentmain").removeClass(textSizeArray[oldTextSize]).addClass(textSizeArray[textSize]);
 	});
 	localStorage.setItem("textSize", textSize);
+}).on("click", ".searchResults li", function(){
+	scrollToWord($(this).data("wordAnchor"));
 });
 
 jQuery.expr[':'].regex = function(elem, index, match) {
@@ -416,4 +432,13 @@ function debounce(func, wait, immediate) {
 		timeout = setTimeout(later, wait);
 		if (callNow) func.apply(context, args);
 	};
+}
+
+function scrollSomewhere(where)
+{
+	$('html, body').animate({ scrollTop: where }, 300, "linear");
+}
+function scrollToWord(word)
+{
+	scrollSomewhere($(word).offset().top - viewportHeight * 0.2);
 }
