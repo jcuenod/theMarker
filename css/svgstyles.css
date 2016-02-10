@@ -1,6 +1,7 @@
 .gearButton {
 	cursor: pointer;
 }
+
 .settings svg path {
 	fill: #ccc;
 	cursor: pointer;

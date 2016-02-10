@@ -120,14 +120,6 @@ body {
 	color: #44f;
 }
 
-.gearButton path {
-	fill: #ccc;
-}
-.gearButton:hover path {
-	fill: #999;
-}
-
-
 .wordItself {
 	position: relative;
 	cursor: pointer;
@@ -160,6 +152,7 @@ body {
 	position: absolute;
 }
 .settingsOptions {
+	box-sizing: padding-box;
 	opacity: 0;
 	pointer-events: none;
 	position: absolute;
@@ -212,23 +205,24 @@ input[type=range]::-moz-focus-outer {
 
 
 .searchResults {
-  position: fixed;
-  background: #EEE;
-  width: 200px;
-  top: 0;
-  bottom: 0;
-  padding: 40px 1em 1em 1em;
-  left: calc(-200px - 1.3em);
-  transition: left 300ms ease;
-  overflow-y: auto;
-  overflow-x: hidden;
+	box-sizing: border-box;
+	position: fixed;
+	background: #EEE;
+	width: 14%;
+	top: 0;
+	bottom: 0;
+	padding: 40px 1em 1em 1em;
+	left: calc(-14% + 0.5em);
+	transition: left 300ms ease;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 .searchResults:hover {
-  left: 0;
+	left: 0;
 }
 
 .heading {
-	font-size: 1.5em;
+	font-size: 1.2em;
 	color: #555;
 }
 .searchResults ul li {
@@ -244,10 +238,11 @@ input[type=range]::-moz-focus-outer {
 
 .vref {
 	display: inline-block;
-	width: 25%;
+	width: 40px;
 }
 .vword {
 	display: inline-block;
-	width: 75%;
+	width: calc(100% - 2em - 40px);
+	padding-left: 3px;
 	font-family: "SBL Biblit", "SBL Greek";
 }
