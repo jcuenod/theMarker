@@ -82,7 +82,6 @@ body {
 	padding: 0;
 }
 .definitionDetail {
-	font-size: 110%;
 	font-size: 80%;
 	margin-bottom: 15px;
 }
@@ -125,22 +124,6 @@ body {
 	position: relative;
 	cursor: pointer;
 }
-.smallest {
-	font-size: 0.9em;
-}
-.small {
-	font-size: 1.1em;
-}
-.big {
-	font-size: 1.5em;
-}
-.bigger {
-	font-size: 1.7em;
-}
-.biggest {
-	font-size: 2em;
-}
-
 .settings {
 	top: 20px;
 	right: 20px;
