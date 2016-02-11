@@ -158,7 +158,7 @@ function showLoad()
 						.addClass("verse")
 						.attr("data-verse-number", verse.verse);
 					verse.words.forEach(function(word){
-						(word.wordInText + " ").split(/([^\x20-\x7E]+)/).forEach(function(bit){
+						(word.wordInText + " ").split(/([\u0370-\u03FF\u1F00-\u1FFF]+)/).forEach(function(bit){
 							if (bit.match(/[^\x20-\x7E]+/))
 							{
 								$vElement.append(
