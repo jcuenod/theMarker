@@ -214,13 +214,13 @@ input[type=range]::-moz-focus-outer {
 	top: 0;
 	bottom: 0;
 	padding: 40px 1em 1em 1em;
-	left: calc(-14% + 0.5em);
-	transition: left 300ms ease;
+	transform: translateX( calc(-100% + 0.7em) );
+	transition: transform 300ms ease;
 	overflow-y: auto;
 	overflow-x: hidden;
 }
 .searchResults:hover {
-	left: 0;
+	transform: translateX(0);
 }
 
 .heading {
