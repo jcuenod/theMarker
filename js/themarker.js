@@ -318,12 +318,7 @@ $(document).ready(function() {
 		$searchResults.append($liEl);
 	});
 }).on("click", ".showDefinition", function(){
-	var $title = $("<div>").addClass("definitionTitle").text(dataDisplayed.lemma);
-	var $msg = $("<p>").text(dictionaryData[normalizePolytonicGreekToLowerCase(dataDisplayed.lemma)].definition);
-	$msg.prepend($("<b>").text("Definition: "));
-	$.MessageBox({
-		message: $("<div>").addClass("definition").append($title).append($msg)
-	});
+	showDefinition(dataDisplayed.lemma);
 }).on("click", ".regexHighlighted", function(){
 	var highlightIndex = $(this).attr("data-highlight-index");
 	$.MessageBox({
@@ -348,6 +343,9 @@ $(document).ready(function() {
 	localStorage.setItem("textSize", textSize);
 }).on("click", ".searchResults li", function(){
 	scrollToWord($(this).data("wordAnchor"));
+}).on("click", ".innerDefinitionAnchor", function(){
+	$("#messagebox_button_done").trigger("click");
+	showDefinition($(this).text());
 });
 
 jQuery.expr[':'].regex = function(elem, index, match) {
@@ -450,4 +448,28 @@ function scrollSomewhere(where)
 function scrollToWord(word)
 {
 	scrollSomewhere($(word).offset().top - viewportHeight * 0.2);
+}
+
+function showDefinition(lemma)
+{
+	var $title = $("<div>").addClass("definitionTitle").text(lemma);
+	var lemmaDefinition = dictionaryData[normalizePolytonicGreekToLowerCase(lemma)].definition;
+	var $msg = $("<p>");
+	lemmaDefinition.split(/([\u0370-\u03FF\u1F00-\u1FFF]+)/).forEach(function(l){
+		if (l.match(/[\u0370-\u03FF\u1F00-\u1FFF]+/))
+		{
+			$msg.append($("<a>", {
+				"href": "#",
+				"class": "innerDefinitionAnchor",
+				"text": l
+			}));
+		}
+		else {
+			$msg.append(l);
+		}
+	});
+	$msg.prepend($("<b>").text("Definition: "));
+	$.MessageBox({
+		message: $("<div>").addClass("definition").append($title).append($msg)
+	});
 }
