@@ -174,7 +174,7 @@ body {
 .wordItself:hover {
 	color: #33F;
 }
-.selectedWord:before {
+.wordItself:before {
 	position: absolute;
 	display: block;
 	background-color: #ACE;
@@ -186,6 +186,11 @@ body {
 	content: " ";
 	z-index: -1;
 	border-radius: 50%;
+	transform: scale(0);
+	transition: transform 150ms ease;
+}
+.selectedWord:before {
+	transform: scale(1);
 }
 #messagebox_overlay {
 	z-index: 200;
