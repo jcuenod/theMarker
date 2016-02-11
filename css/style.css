@@ -180,7 +180,8 @@ body {
 	background-color: #ACE;
 	width: 1.5em;
 	height: 1.5em;
-	left: calc(50% - 0.75em);
+	/* plus 0.05em for cosmetics */
+	left: calc(50% - 0.75em + 0.05em);
 	top: calc(50% - 0.75em);
 	content: " ";
 	z-index: -1;
