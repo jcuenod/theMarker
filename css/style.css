@@ -214,8 +214,8 @@ input[type=range]::-moz-focus-outer {
 	top: 0;
 	bottom: 0;
 	padding: 40px 1em 1em 1em;
-	transform: translateX( calc(-100% + 0.7em) );
-	transition: transform 300ms ease;
+	transform: translateX(-100%) translateX(0.7em);
+	transition: transform 300ms ease-in-out;
 	overflow-y: auto;
 	overflow-x: hidden;
 }
