@@ -344,8 +344,14 @@ $(document).ready(function() {
 }).on("change", "#fontSizeSelector", function(){
 	var oldTextSize = textSize;
 	textSize = +$(this).val();
+	var $topLeftWord = getExtremeElement();
 	requestAnimationFrame(function(){
 		$(".contentmain").removeClass(textSizeArray[oldTextSize]).addClass(textSizeArray[textSize]);
+		window.setTimeout(function() {
+			requestAnimationFrame(function(){
+				scrollToWord($topLeftWord, 0);
+			});
+		}, 300);
 	});
 	localStorage.setItem("textSize", textSize);
 }).on("click", ".searchResults li", function(){
@@ -402,8 +408,8 @@ function getExtremeElement(invertDirection){
 	var contentRect = $(".contentmain")[0].getBoundingClientRect();
 	var leftmost = contentRect.left;
 	var rightmost = contentRect.left + contentRect.width;
-	var topmost = contentRect.top < 0 ? 10 : contentRect.top;
-	var bottommost = contentRect.bottom > viewportHeight ? viewportHeight - 10 : contentRect.bottom;
+	var topmost = contentRect.top < 0 ? 40 : contentRect.top;
+	var bottommost = contentRect.bottom > viewportHeight ? viewportHeight - 20 : contentRect.bottom; //20 is just a magic number
 
 	var options = {
 		'xDefault': !invertDirection ? leftmost : rightmost,
@@ -452,9 +458,10 @@ function scrollSomewhere(where)
 {
 	$('html, body').animate({ scrollTop: where }, 300, "linear");
 }
-function scrollToWord(word)
+function scrollToWord(word, offset)
 {
-	scrollSomewhere($(word).offset().top - viewportHeight * 0.2);
+	offset = (typeof offset == "undefined") ? (viewportHeight * 0.2) : offset + 34; //34 is the height of the menu bar thing
+	scrollSomewhere($(word).offset().top - offset);
 }
 
 function showDefinition(lemma)
