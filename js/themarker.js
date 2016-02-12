@@ -239,7 +239,7 @@ $(document).ready(function() {
 	textSize = localStorage.getItem("textSize");
 	textSize = typeof textSize == "undefined" ? 2 : textSize;
 	$("#fontSizeSelector").val(textSize);
-	$(".contentmain").addClass(textSizeArray[textSize]);
+	$(".contentmain").addClass("size-" + textSize);
 
 	var $sidebar	= $(".sidebar"),
 		$window		= $(window),
@@ -346,7 +346,7 @@ $(document).ready(function() {
 	textSize = +$(this).val();
 	var $topLeftWord = getExtremeElement();
 	requestAnimationFrame(function(){
-		$(".contentmain").removeClass(textSizeArray[oldTextSize]).addClass(textSizeArray[textSize]);
+		$(".contentmain").removeClass("size-" + oldTextSize).addClass("size-" + textSize);
 		window.setTimeout(function() {
 			requestAnimationFrame(function(){
 				scrollToWord($topLeftWord, 0);
