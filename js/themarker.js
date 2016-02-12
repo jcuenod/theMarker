@@ -317,6 +317,10 @@ $(document).ready(function() {
 				.data("wordAnchor", this);
 		$searchResults.append($liEl);
 	});
+}).on("click", ".showAbout", function(){
+	$.MessageBox({
+		message: "<b>This Awesome App</b><p>Was made by James Cuénod with <a href='https://github.com/jcuenod/theMarker'>free code</a>.<br />Thanks to James Tauber who <a href='https://github.com/morphgnt/sblgnt'>morphologically tagged</a> Logos' <a href='http://sblgnt.com/'>SBLGNT</a><br />and Bill Mounce for his <a href='https://github.com/billmounce/dictionary'>Greek dictionary</a>.</p>"
+	});
 }).on("click", ".showDefinition", function(){
 	showDefinition(dataDisplayed.lemma);
 }).on("click", ".regexHighlighted", function(){
