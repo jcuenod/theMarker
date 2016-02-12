@@ -408,8 +408,9 @@ function getExtremeElement(invertDirection){
 	var contentRect = $(".contentmain")[0].getBoundingClientRect();
 	var leftmost = contentRect.left;
 	var rightmost = contentRect.left + contentRect.width;
-	var topmost = contentRect.top < 0 ? 40 : contentRect.top;
-	var bottommost = contentRect.bottom > viewportHeight ? viewportHeight - 20 : contentRect.bottom; //20 is just a magic number
+	//25 and 50 are just magic numbers derived through testing
+	var topmost = contentRect.top < 0 ? 50 : contentRect.top;
+	var bottommost = contentRect.bottom > viewportHeight ? viewportHeight - 25 : contentRect.bottom;
 
 	var options = {
 		'xDefault': !invertDirection ? leftmost : rightmost,
