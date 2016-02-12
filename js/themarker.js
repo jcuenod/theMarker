@@ -475,11 +475,17 @@ function showDefinition(lemma)
 	lemmaDefinition.split(/([\u0370-\u03FF\u1F00-\u1FFF]+)/).forEach(function(l){
 		if (l.match(/[\u0370-\u03FF\u1F00-\u1FFF]+/))
 		{
-			$msg.append($("<a>", {
-				"href": "#",
-				"class": "innerDefinitionAnchor",
-				"text": l
-			}));
+			if (dictionaryData[normalizePolytonicGreekToLowerCase(l)])
+			{
+				$msg.append($("<a>", {
+					"href": "#",
+					"class": "innerDefinitionAnchor",
+					"text": l
+				}));
+			}
+			else {
+				$msg.append(l);
+			}
 		}
 		else {
 			$msg.append(l);
