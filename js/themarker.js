@@ -359,6 +359,8 @@ $(document).ready(function() {
 }).on("click", ".innerDefinitionAnchor", function(){
 	$("#messagebox_button_done").trigger("click");
 	showDefinition($(this).text());
+}).on("resize", function(){
+	viewportHeight = $window.height();
 });
 
 jQuery.expr[':'].regex = function(elem, index, match) {
