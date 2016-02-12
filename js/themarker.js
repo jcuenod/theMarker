@@ -1,6 +1,7 @@
 var highlightColours = ["SteelBlue", "Aqua", "MediumTurquoise", "PaleTurquoise", "CadetBlue", "LightSteelBlue", "SkyBlue", "Lime", "GreenYellow", "LimeGreen", "PaleGreen", "OliveDrab", "SeaGreen", "ForestGreen", "Crimson", "FireBrick", "OrangeRed", "IndianRed", "LightCoral", "Salmon", "LightSalmon", "DarkOrange", "Gold", "Khaki", "DarkKhaki", "PaleGoldenrod", "Moccasin", "PeachPuff", "BlueViolet", "Purple", "Thistle", "Plum", "Violet", "MediumOrchid", "MediumPurple"];
 
 var bibleData;
+var $aboutDialog;
 var dictionaryData;
 var textSize;
 var textSizeArray = ["smallest", "small", "", "big", "bigger", "biggest"];
@@ -232,6 +233,7 @@ $(document).ready(function() {
 		});
 	}
 	showLoad();
+	$aboutDialog = $(".aboutDialog").detach();
 	buildForm();
 
 	textSize = localStorage.getItem("textSize");
@@ -319,7 +321,8 @@ $(document).ready(function() {
 	});
 }).on("click", ".showAbout", function(){
 	$.MessageBox({
-		message: "<b>This Awesome App</b><p>Was made by James Cuénod with <a href='https://github.com/jcuenod/theMarker'>free code</a>.<br />Thanks to James Tauber who <a href='https://github.com/morphgnt/sblgnt'>morphologically tagged</a> Logos' <a href='http://sblgnt.com/'>SBLGNT</a><br />and Bill Mounce for his <a href='https://github.com/billmounce/dictionary'>Greek dictionary</a>.</p>"
+		message: $aboutDialog,
+		top: "5%"
 	});
 }).on("click", ".showDefinition", function(){
 	showDefinition(dataDisplayed.lemma);
