@@ -279,11 +279,6 @@ $(document).ready(function() {
 	dataDisplayed = displaydata($(this), ".static.dataDisplayer", true);
 	$(".selectedWord").removeClass("selectedWord");
 	$(this).addClass("selectedWord");
-}).on("mouseover", ".verse > span", function(e) {
-	// var verseNumber = $(e.target).parent().attr("data-verse-number");
-	// var chapterNumber = $(e.target).parent().parent().attr("data-chapter-number");
-	// $(".referenceVerse").html(chapterNumber + ":" + verseNumber);
-	// displaydata($(this), ".dynamic.dataDisplayer", false);
 }).on("click", ".btnHighlightSomething", function() {
 	var $formElements = $form.children().filter(":input");
 	var formData = {};
@@ -294,9 +289,6 @@ $(document).ready(function() {
 	parsingDefintionObject.forEach(function(e){
 		regex += formData[e.name];
 	});
-	// console.log(formData.collectionName);
-	// console.log(formData.lemma);
-	// console.log(regex);
 	var $words = $(".wordItself");
 	if (formData.lemma !== "")
 		$words = $words.filter("[data-lemma='" + formData.lemma + "']");
