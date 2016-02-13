@@ -75,7 +75,6 @@ body {
 	font-family: "SBL Biblit", "SBL Greek";
 }
 .definitionTitle {
-	margin-top: 0;
 	font-weight: 300;
 	font-size: 130%;
 	margin: 0;
@@ -119,9 +118,13 @@ body {
 .wordItself {
 	position: relative;
 	cursor: pointer;
+	margin: 1px 0;
 }
 .regexHighlighted {
-    border-radius: 3px;
+	border-top-left-radius: 2px;
+	border-bottom-right-radius: 2px;
+	border-top-right-radius: 4px;
+	border-bottom-left-radius: 4px;
 }
 
 .settings {

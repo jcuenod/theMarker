@@ -294,7 +294,7 @@ $(document).ready(function() {
 		$words = $words.filter("[data-lemma='" + formData.lemma + "']");
 	if (regex != "........")
 		$words = $words.filter(":regex(data-morphology-two," + regex + ")");
-	$words.css("background-color", highlightColours[highlightCounter++]);
+	$words.addClass(highlightColours[highlightCounter++]);
 	$words.addClass("regexHighlighted");
 	$words.attr("data-highlight-index", highlightCounter);
 
