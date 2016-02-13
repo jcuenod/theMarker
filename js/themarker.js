@@ -327,7 +327,8 @@ $(document).ready(function() {
 	}).done(function(){
 		$(".regexHighlighted").filter("[data-highlight-index=" + highlightIndex + "]")
 			.removeAttr("style")
-			.removeClass("regexHighlighted");
+			.removeClass("regexHighlighted")
+			.removeClass(highlightColours[highlightIndex - 1]);
 	});
 }).on("click", ".chapterLink", function(){
 	var newTop = $("[name='" + $.attr(this, 'href').substring(1) + "']").offset().top - 34;
