@@ -1,6 +1,7 @@
 var highlightColours = ["SteelBlue", "Aqua", "MediumTurquoise", "PaleTurquoise", "CadetBlue", "LightSteelBlue", "SkyBlue", "Lime", "GreenYellow", "LimeGreen", "PaleGreen", "OliveDrab", "SeaGreen", "ForestGreen", "Crimson", "FireBrick", "OrangeRed", "IndianRed", "LightCoral", "Salmon", "LightSalmon", "DarkOrange", "Gold", "Khaki", "DarkKhaki", "PaleGoldenrod", "Moccasin", "PeachPuff", "BlueViolet", "Purple", "Thistle", "Plum", "Violet", "MediumOrchid", "MediumPurple"];
 
 var bibleData;
+var currentReference;
 var $aboutDialog;
 var dictionaryData;
 var textSize;
@@ -137,59 +138,62 @@ function showLoad()
 		buttonDone  : "Prepare to Mark",
 		buttonFail  : "Cancel",
 		input   : $select
-	}).done(function(data){
-		var bookName = data;
-		$(".loadingOverlay").show();
-		$.getJSON("json/" + data + ".json", function(data){
-			$(window).scrollTop(0);
-			$(".contentmain").empty();
-			$("#chapterButtons").empty();
-			$(".referenceBook").text($.grep(bookList, function(b){ return b.value == bookName; })[0].bookName);
-			$(".referenceVerse").text("");
-			bibleData = data;
-			data.chapters.forEach(function(chapter){
-				if (chapter.verses.length === 1)
-					return;
-				var $chElement = $("<p>")
-					.addClass("chapter")
-					.attr("data-chapter-number", chapter.chapter)
-					.append($("<a>").attr("name", "ch" + chapter.chapter));
-				chapter.verses.forEach(function(verse){
-					var $vElement = $("<span>")
-						.addClass("verse")
-						.attr("data-verse-number", verse.verse);
-					verse.words.forEach(function(word){
-						(word.wordInText + " ").split(/([\u0370-\u03FF\u1F00-\u1FFF]+)/).forEach(function(bit){
-							if (bit.match(/[\u0370-\u03FF\u1F00-\u1FFF]+/))
-							{
-								$vElement.append(
-									$("<span>")
-										.append(bit)
-										.addClass("wordItself")
-										.attr("data-word-index-in-verse", word.wordIndexInVerse)
-										.attr("data-lemma", word.lemma)
-										.attr("data-morphology-one", word.morphologyOne)
-										.attr("data-morphology-two", word.morphologyTwo)
-								);
-							}
-							else
-							{
-								$vElement.append(bit);
-							}
-						});
+	}).done(loadBook);
+}
+function loadBook(bookToLoad, doWhenLoaded){
+	currentReference.book = bookToLoad;
+	$(".loadingOverlay").show();
+	$.getJSON("json/" + bookToLoad + ".json", function(data){
+		$(window).scrollTop(0);
+		$(".contentmain").empty();
+		$("#chapterButtons").empty();
+		$(".referenceBook").text($.grep(bookList, function(b){ return b.value == currentReference.book; })[0].bookName);
+		$(".referenceVerse").text("");
+		bibleData = data;
+		data.chapters.forEach(function(chapter){
+			if (chapter.verses.length === 1)
+				return;
+			var $chElement = $("<p>")
+				.addClass("chapter")
+				.attr("data-chapter-number", chapter.chapter)
+				.append($("<a>").attr("name", "ch" + chapter.chapter));
+			chapter.verses.forEach(function(verse){
+				var $vElement = $("<span>")
+					.addClass("verse")
+					.attr("data-verse-number", verse.verse);
+				verse.words.forEach(function(word){
+					(word.wordInText + " ").split(/([\u0370-\u03FF\u1F00-\u1FFF]+)/).forEach(function(bit){
+						if (bit.match(/[\u0370-\u03FF\u1F00-\u1FFF]+/))
+						{
+							$vElement.append(
+								$("<span>")
+									.append(bit)
+									.addClass("wordItself")
+									.attr("data-word-index-in-verse", word.wordIndexInVerse)
+									.attr("data-lemma", word.lemma)
+									.attr("data-morphology-one", word.morphologyOne)
+									.attr("data-morphology-two", word.morphologyTwo)
+							);
+						}
+						else
+						{
+							$vElement.append(bit);
+						}
 					});
-					$chElement.append($vElement);
 				});
-				$(".contentmain").append($chElement);
-				$("#chapterButtons").append(
-					$("<a>").attr("href", "#ch" + chapter.chapter)
-					.text(chapter.chapter)
-					.addClass("chapterLink")
-				);
+				$chElement.append($vElement);
 			});
-			window.setTimeout(setVerseRange, 400);
-			$(".loadingOverlay").fadeOut();
+			$(".contentmain").append($chElement);
+			$("#chapterButtons").append(
+				$("<a>").attr("href", "#ch" + chapter.chapter)
+				.text(chapter.chapter)
+				.addClass("chapterLink")
+			);
 		});
+		window.setTimeout(setVerseRange, 400);
+		$(".loadingOverlay").fadeOut();
+		if (typeof doWhenLoaded !== "undefined")
+			doWhenLoaded();
 	});
 }
 function buildForm()
@@ -232,7 +236,21 @@ $(document).ready(function() {
 			message: "It's not required but you should really consider installing the SBL Biblit font for good looking Greek...<br />and if it doesn't look good, well that's your dumb fault isn't it?"
 		});
 	}
-	showLoad();
+	currentReference =  JSON.parse(localStorage.getItem("currentReference")) || {
+		"book": "",
+		"chapter": "",
+		"verse": "",
+		"wordInVerse": ""
+	};
+	if (currentReference.book !== "")
+	{
+		loadBook(currentReference.book, function(){
+			scrollToWord($("[data-chapter-number=" + currentReference.chapter + "] [data-verse-number=" + currentReference.verse + "] [data-word-index-in-verse=" + currentReference.wordInVerse + "]"), 0);
+		});
+	}
+	else {
+		showLoad();
+	}
 	$aboutDialog = $(".aboutDialog").detach();
 	buildForm();
 
@@ -389,11 +407,17 @@ function setVerseRange()
 		$(".referenceVerse").html("");
 	}
 	else {
-		var earliestPoint = $(element).parent().parent().attr("data-chapter-number") + ":" + $(element).parent().attr("data-verse-number");
+		var earlyChapter = $(element).parent().parent().attr("data-chapter-number");
+		var earlyVerse = $(element).parent().attr("data-verse-number");
+		var earlyWordInVerse = $(element).attr("data-word-index-in-verse");
+		var earliestPoint = earlyChapter + ":" + earlyVerse;
 		element = getExtremeElement(true);
 		var latestPoint = $(element).parent().parent().attr("data-chapter-number") + ":" + $(element).parent().attr("data-verse-number");
-		var message = earliestPoint == "undefined:undefined" ? (latestPoint == "undefined:undefined" ? "" : latestPoint) : earliestPoint + (latestPoint == "undefined:undefined" ? "" : "-" + latestPoint);
 		$(".referenceVerse").html(earliestPoint + "-" + latestPoint);
+		currentReference.chapter = earlyChapter;
+		currentReference.verse = earlyVerse;
+		currentReference.wordInVerse = earlyWordInVerse;
+		localStorage.setItem("currentReference", JSON.stringify(currentReference));
 	}
 }
 function getExtremeElement(invertDirection){
