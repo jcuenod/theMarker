@@ -463,7 +463,8 @@ function scrollToWord(word, offset)
 function showDefinition(lemma)
 {
 	var $title = $("<div>").addClass("definitionTitle").text(lemma);
-	var lemmaDefinition = dictionaryData[normalizePolytonicGreekToLowerCase(lemma)].definition;
+	var lemmaWithoutBrackets = lemma.replace(/[\(\)]/g, '');
+	var lemmaDefinition = dictionaryData[normalizePolytonicGreekToLowerCase(lemmaWithoutBrackets)].definition;
 	var $msg = $("<p>");
 	lemmaDefinition.split(/([\u0370-\u03FF\u1F00-\u1FFF]+)/).forEach(function(l){
 		if (l.match(/[\u0370-\u03FF\u1F00-\u1FFF]+/))
