@@ -488,7 +488,7 @@ function showDefinition(lemma)
 {
 	var lemmaWithoutBrackets = lemma.replace(/\(.+?\)/g, '');
 	var dictionaryEntry = dictionaryData[normalizePolytonicGreekToLowerCase(lemmaWithoutBrackets)];
-	var $title = $("<div>").addClass("definitionTitle").text(lemma + "(" + dictionaryEntry.frequencyCount + "x)");
+	var $title = $("<div>").addClass("definitionTitle").text(lemma + " (" + dictionaryEntry.frequencyCount + "x)");
 	var lemmaDefinition = dictionaryEntry.definition;
 	var $msg = $("<p>");
 	lemmaDefinition.split(/([\u0370-\u03FF\u1F00-\u1FFF]+)/).forEach(function(l){
