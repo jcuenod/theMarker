@@ -1,5 +1,6 @@
 body {
 	padding-top: 35px;
+	line-height: 1.4;
 }
 .loadingOverlay {
 	text-align: center;
@@ -116,9 +117,10 @@ body {
 }
 
 .wordItself {
-	position: relative;
+	display: inline-block;
+	margin: 0.1em 0;
+	padding: 0 2px;
 	cursor: pointer;
-	margin: 1px 0;
 }
 .regexHighlighted {
 	border-top-left-radius: 2px;
