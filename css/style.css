@@ -163,7 +163,7 @@ body {
 	color: #33F;
 }
 .selectedWord {
-    background: url("images/dot.svg") center center no-repeat;
+    background: url("../images/dot.svg") center center no-repeat;
     background-size: contain;
 }
 #messagebox_overlay {
