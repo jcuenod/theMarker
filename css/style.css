@@ -162,18 +162,9 @@ body {
 .wordItself:hover {
 	color: #33F;
 }
-.selectedWord:before {
-	position: absolute;
-	display: block;
-	background-color: #ACE;
-	width: 1.5em;
-	height: 1.5em;
-	/* plus 0.05em for cosmetics */
-	left: calc(50% - 0.75em + 0.05em);
-	top: calc(50% - 0.75em);
-	content: " ";
-	z-index: -1;
-	border-radius: 50%;
+.selectedWord {
+    background: url("images/dot.svg") center center no-repeat;
+    background-size: contain;
 }
 #messagebox_overlay {
 	z-index: 200;
