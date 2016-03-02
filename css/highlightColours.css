@@ -1,314 +1,139 @@
 .SteelBlue {
     background-color: SteelBlue;
 }
-.selectedWord.SteelBlue {
-    background: SteelBlue;
-        border: 3px solid #a00;
-        margin: -3px;
-}
 
 .Aqua {
     background-color: Aqua;
-}
-.selectedWord.Aqua {
-    background: Aqua;
-        border: 3px solid #a00;
-        margin: -3px;
 }
 
 .MediumTurquoise {
     background-color: MediumTurquoise;
 }
-.selectedWord.MediumTurquoise {
-    background: MediumTurquoise;
-        border: 3px solid #a00;
-        margin: -3px;
-}
 
 .PaleTurquoise {
     background-color: PaleTurquoise;
-}
-.selectedWord.PaleTurquoise {
-    background: PaleTurquoise;
-        border: 3px solid #a00;
-        margin: -3px;
 }
 
 .CadetBlue {
     background-color: CadetBlue;
 }
-.selectedWord.CadetBlue {
-    background: CadetBlue;
-        border: 3px solid #a00;
-        margin: -3px;
-}
 
 .LightSteelBlue {
     background-color: LightSteelBlue;
-}
-.selectedWord.LightSteelBlue {
-    background: LightSteelBlue;
-        border: 3px solid #a00;
-        margin: -3px;
 }
 
 .SkyBlue {
     background-color: SkyBlue;
 }
-.selectedWord.SkyBlue {
-    background: SkyBlue;
-        border: 3px solid #a00;
-        margin: -3px;
-}
 
 .Lime {
     background-color: Lime;
-}
-.selectedWord.Lime {
-    background: Lime;
-        border: 3px solid #a00;
-        margin: -3px;
 }
 
 .GreenYellow {
     background-color: GreenYellow;
 }
-.selectedWord.GreenYellow {
-    background: GreenYellow;
-        border: 3px solid #a00;
-        margin: -3px;
-}
 
 .LimeGreen {
     background-color: LimeGreen;
-}
-.selectedWord.LimeGreen {
-    background: LimeGreen;
-        border: 3px solid #a00;
-        margin: -3px;
 }
 
 .PaleGreen {
     background-color: PaleGreen;
 }
-.selectedWord.PaleGreen {
-    background: PaleGreen;
-        border: 3px solid #a00;
-        margin: -3px;
-}
 
 .OliveDrab {
     background-color: OliveDrab;
-}
-.selectedWord.OliveDrab {
-    background: OliveDrab;
-        border: 3px solid #a00;
-        margin: -3px;
 }
 
 .SeaGreen {
     background-color: SeaGreen;
 }
-.selectedWord.SeaGreen {
-    background: SeaGreen;
-        border: 3px solid #a00;
-        margin: -3px;
-}
 
 .ForestGreen {
     background-color: ForestGreen;
-}
-.selectedWord.ForestGreen {
-    background: ForestGreen;
-        border: 3px solid #a00;
-        margin: -3px;
 }
 
 .Crimson {
     background-color: Crimson;
 }
-.selectedWord.Crimson {
-    background: Crimson;
-        border: 3px solid #a00;
-        margin: -3px;
-}
 
 .FireBrick {
     background-color: FireBrick;
-}
-.selectedWord.FireBrick {
-    background: FireBrick;
-        border: 3px solid #a00;
-        margin: -3px;
 }
 
 .OrangeRed {
     background-color: OrangeRed;
 }
-.selectedWord.OrangeRed {
-    background: OrangeRed;
-        border: 3px solid #a00;
-        margin: -3px;
-}
 
 .IndianRed {
     background-color: IndianRed;
-}
-.selectedWord.IndianRed {
-    background: IndianRed;
-        border: 3px solid #a00;
-        margin: -3px;
 }
 
 .LightCoral {
     background-color: LightCoral;
 }
-.selectedWord.LightCoral {
-    background: LightCoral;
-        border: 3px solid #a00;
-        margin: -3px;
-}
 
 .Salmon {
     background-color: Salmon;
-}
-.selectedWord.Salmon {
-    background: Salmon;
-        border: 3px solid #a00;
-        margin: -3px;
 }
 
 .LightSalmon {
     background-color: LightSalmon;
 }
-.selectedWord.LightSalmon {
-    background: LightSalmon;
-        border: 3px solid #a00;
-        margin: -3px;
-}
 
 .DarkOrange {
     background-color: DarkOrange;
-}
-.selectedWord.DarkOrange {
-    background: DarkOrange;
-        border: 3px solid #a00;
-        margin: -3px;
 }
 
 .Gold {
     background-color: Gold;
 }
-.selectedWord.Gold {
-    background: Gold;
-        border: 3px solid #a00;
-        margin: -3px;
-}
 
 .Khaki {
     background-color: Khaki;
-}
-.selectedWord.Khaki {
-    background: Khaki;
-        border: 3px solid #a00;
-        margin: -3px;
 }
 
 .DarkKhaki {
     background-color: DarkKhaki;
 }
-.selectedWord.DarkKhaki {
-    background: DarkKhaki;
-        border: 3px solid #a00;
-        margin: -3px;
-}
 
 .PaleGoldenrod {
     background-color: PaleGoldenrod;
-}
-.selectedWord.PaleGoldenrod {
-    background: PaleGoldenrod;
-        border: 3px solid #a00;
-        margin: -3px;
 }
 
 .Moccasin {
     background-color: Moccasin;
 }
-.selectedWord.Moccasin {
-    background: Moccasin;
-        border: 3px solid #a00;
-        margin: -3px;
-}
 
 .PeachPuff {
     background-color: PeachPuff;
-}
-.selectedWord.PeachPuff {
-    background: PeachPuff;
-        border: 3px solid #a00;
-        margin: -3px;
 }
 
 .BlueViolet {
     background-color: BlueViolet;
 }
-.selectedWord.BlueViolet {
-    background: BlueViolet;
-        border: 3px solid #a00;
-        margin: -3px;
-}
 
 .Purple {
     background-color: Purple;
-}
-.selectedWord.Purple {
-    background: Purple;
-        border: 3px solid #a00;
-        margin: -3px;
 }
 
 .Thistle {
     background-color: Thistle;
 }
-.selectedWord.Thistle {
-    background: Thistle;
-        border: 3px solid #a00;
-        margin: -3px;
-}
 
 .Plum {
     background-color: Plum;
-}
-.selectedWord.Plum {
-    background: Plum;
-        border: 3px solid #a00;
-        margin: -3px;
 }
 
 .Violet {
     background-color: Violet;
 }
-.selectedWord.Violet {
-    background: Violet;
-        border: 3px solid #a00;
-        margin: -3px;
-}
 
 .MediumOrchid {
     background-color: MediumOrchid;
 }
-.selectedWord.MediumOrchid {
-    background: MediumOrchid;
-        border: 3px solid #a00;
-        margin: -3px;
-}
 
 .MediumPurple {
     background-color: MediumPurple;
-}
-.selectedWord.MediumPurple {
-    background: MediumPurple;
-        border: 3px solid #a00;
-        margin: -3px;
 }
