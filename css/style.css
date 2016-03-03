@@ -168,12 +168,12 @@ body {
 .selectedWord:before {
 	position: absolute;
 	display: block;
-	border: 5px solid #333;
-	background: rgba(0, 0, 0, 0.5);
-	width: 1.4em;
-	height: 1.4em;
-	left: calc(50% - 0.7em + 0.05em - 5px);
-	top: calc(50% - 0.7em - 5px);
+	border: 6px solid #333;
+	background: rgba(0, 0, 0, 0.3);
+	width: 1.5em;
+	height: 1.5em;
+	left: calc(50% - 0.75em + 0.05em - 6px);
+	top: calc(50% - 0.75em - 6px);
 	content: " ";
 	z-index: 1;
 	border-radius: 50%;
