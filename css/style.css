@@ -11,7 +11,7 @@ body {
 	bottom: 0;
 	background-color: #fff;
 	background-color: rgba(255, 255, 255, 0.7);
-	padding-top:20%;
+	padding-top: 20%;
 	color: steelblue;
 	font-size: 300%;
 	vertical-align: middle;
@@ -95,10 +95,10 @@ body {
 	content: attr(data-chapter-number);
 	float: left;
 	font-weight: bold;
-    font-size: 280%;
-    position: relative;
-    padding: 0 10px 0 0;
-    line-height: 100%;
+	font-size: 280%;
+	position: relative;
+	padding: 0 10px 0 0;
+	line-height: 100%;
 }
 .verse:hover {
 	color: #116;
@@ -111,8 +111,8 @@ body {
 	content: attr(data-verse-number);
 	display: inline-block;
 	font-size: 70%;
-    position: relative;
-    top: -5px;
+	position: relative;
+	top: -5px;
 	color: #44f;
 }
 
@@ -186,17 +186,11 @@ body {
 }
 
 input[type="range"]::-moz-range-track {
-  padding: 0 10px;
-  background: repeating-linear-gradient(to right,
-    #ccc,
-    #ccc 7%,
-    #000 7%,
-    #000 8%,
-    #ccc 8%,
-    #ccc 16.5%);
+	padding: 0 10px;
+	background: repeating-linear-gradient(to right, #ccc, #ccc 7%, #000 7%, #000 8%, #ccc 8%, #ccc 16.5%);
 }
 input[type=range]::-moz-focus-outer {
-    border: 0;
+	border: 0;
 }
 
 
@@ -231,7 +225,6 @@ input[type=range]::-moz-focus-outer {
 .searchResults ul li:hover {
 	background: #DDD;
 }
-
 .vref {
 	display: inline-block;
 	width: 40px;
@@ -241,4 +234,47 @@ input[type=range]::-moz-focus-outer {
 	width: calc(100% - 2em - 40px);
 	padding-left: 3px;
 	font-family: "SBL Biblit", "SBL Greek";
+}
+
+input[type=checkbox] {
+	position: absolute;
+	z-index: -1000;
+	left: -2000px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	width: 1px;
+	margin: -1px;
+	padding: 0;
+	border: 0;
+}
+input[type=checkbox] + label:hover {
+	color: #333;
+}
+input[type=checkbox] + label {
+	padding-left: 24px;
+	height: 17px;
+	display: inline-block;
+	line-height: 17px;
+	background-repeat: no-repeat;
+	background-position: 0 0;
+	font-size: 13px;
+	vertical-align: middle;
+	cursor: pointer;
+	margin: 0 0 10px 0;
+	color: #555;
+	text-transform:uppercase;
+	font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+input[type=checkbox]:checked + label {
+	background-position: 0 -17px;
+}
+input[type=checkbox] + label {
+	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAiCAYAAAC9duLEAAAB2ElEQVRIie3WMWhTQRgA4C8SHETEIYOCiIKIgziouBUVuriISxdBipYi6OTyTgUHocXecxHEwVaxIOLo5Ka2m6OLmyFIkeDQwUlKKdbhXfA1zWsTzNh/y89/3/33fu5Ibd3wYtcQLfU8xlG8xOEB1i1hIgvhwwYMrzGP5wNgN9O6g93YAcxlIXzvV8pjnMPd7nznm/0ZoKvK+qEOYAfbwbbBBkV71tfxE5N5jIPczcm0bhN2TfFqbLprW8QSxruTtWE8jnmMNzBe/0/kkOIpuoCZeh7jWTzFCf0N4nEWwlQe4xW8wn7cy0KYqcUYv2FR8TiubQP9RhPT/n3jqSyEBxQDOIZLWQjNPo61B+9wOaVmO5DSsdZScWMLaB8WStAn3C7X1GKM6ziKUTzDC9zJQlgtQQ18xKmUauFMFsKvMtbprIGH2I1b+JzHeKQELZSgVYylNRuigy3jPNrp92l8yWO8ivc4WVoTFEN4W4VJAxhJR6AY+RucK9UvZiE8SZsdr8QS2EodtroLsYKJHvneWAJ/VICP0mb9YyVwBF9Tqo18K6gSS2AbFxM4nYWw0i9W1eFyAue3gyiuUxsT6f9DVezNYyw3MKbHkOq4jjnc72f3FE3Fo7oh/gJ7Q4g8ITja9AAAAABJRU5ErkJggg==);
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }

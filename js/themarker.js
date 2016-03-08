@@ -11,6 +11,7 @@ var $form = $("<div>");
 var dataDisplayed = [];
 var highlightCounter = 0;
 var viewportHeight;
+var oneClickDefinitions = false;
 
 var bookList = [{ "value": "matthew", "bookName": "Matthew" },
 	{ "value": "mark", "bookName": "Mark" },
@@ -294,9 +295,18 @@ $(document).ready(function() {
 }).on("click", ".loadNewBook", function(){
 	showLoad();
 }).on("click", ".wordItself", function(){
-	dataDisplayed = displaydata($(this), ".static.dataDisplayer", true);
+	if (oneClickDefinitions)
+	{
+		showDefinition(dataDisplayed.lemma);
+	}
+	else {
+		dataDisplayed = displaydata($(this), ".static.dataDisplayer", true);
+	}
 	$(".selectedWord").removeClass("selectedWord");
 	$(this).addClass("selectedWord");
+}).on("mouseenter", ".wordItself", function(e){
+	if (oneClickDefinitions && !e.ctrlKey)
+		dataDisplayed = displaydata($(this), ".static.dataDisplayer", true);
 }).on("click", ".btnHighlightSomething", function() {
 	var $formElements = $form.children().filter(":input");
 	var formData = {};
@@ -329,6 +339,9 @@ $(document).ready(function() {
 				.data("wordAnchor", this);
 		$searchResults.append($liEl);
 	});
+}).on("click", ".oneClickDefs", function(){
+	oneClickDefinitions = !oneClickDefinitions;
+	$(".showDefinition").toggle();
 }).on("click", ".showAbout", function(){
 	$.MessageBox({
 		message: $aboutDialog,
