@@ -34,6 +34,7 @@ body {
 	background-color: #fff;
 	background-color: rgba(255, 255, 255, 0.9);
 	padding-left: 15px;
+	transform: translateZ(0);
 }
 .verseReference {
 	display: inline-block;
@@ -284,8 +285,10 @@ input[type=checkbox] + label {
 	left: 0;
 	height: 100%;
 	top: 0;
+	z-index: -1;
 	box-shadow: -6px 0 white,
 		6px 0 white,
 		0 7px 4px -3px #f3f3f3;
 	content: "";
+	transform: translateZ(0);
 }
