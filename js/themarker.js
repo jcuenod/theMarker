@@ -237,6 +237,8 @@ $(document).ready(function() {
 			message: "It's not required but you should really consider installing the SBL Biblit font for good looking Greek...<br />and if it doesn't look good, well that's your dumb fault isn't it?"
 		});
 	}
+	//TODO: this should be a settings object eventually and we shouldn't do string comparison
+	setOneClickDefinitions(localStorage.getItem("oneClickDefinitions") === "true");
 	currentReference =  JSON.parse(localStorage.getItem("currentReference")) || {
 		"book": "",
 		"chapter": "",
@@ -340,8 +342,7 @@ $(document).ready(function() {
 		$searchResults.append($liEl);
 	});
 }).on("click", ".oneClickDefs", function(){
-	oneClickDefinitions = !oneClickDefinitions;
-	$(".showDefinition").toggle();
+	toggleOneClickDefinitions();
 }).on("click", ".showAbout", function(){
 	$.MessageBox({
 		message: $aboutDialog,
@@ -412,6 +413,22 @@ function normalizePolytonicGreekToLowerCase(text) {
 	return text.toLowerCase();
 }
 
+function toggleOneClickDefinitions()
+{
+	console.log("toggle!");
+	setOneClickDefinitions(!oneClickDefinitions);
+}
+function setOneClickDefinitions(oneClick)
+{
+	if (typeof oneClick == "undefined")
+		oneClick = false;
+	oneClickDefinitions = oneClick;
+	$(".showDefinition").toggle(!oneClick);
+	$("#oneClickDefs").attr("checked", oneClick);
+	localStorage.setItem("oneClickDefinitions", oneClick);
+	console.log(localStorage.getItem("oneClickDefinitions"));
+	console.log(oneClickDefinitions);
+}
 function setVerseRange()
 {
 	var element = getExtremeElement(false);
