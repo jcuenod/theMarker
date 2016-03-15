@@ -265,7 +265,7 @@ $(document).ready(function() {
 	var $sidebar	= $(".sidebar"),
 		$window		= $(window),
 		offset		= $sidebar.offset(),
-		topPadding	= 35,
+		topPadding	= 35 + 15,
 		ticking		= false;
 	viewportHeight = $window.height();
 
@@ -278,7 +278,7 @@ $(document).ready(function() {
 				{
 					$sidebar.css("marginTop", currentOffset > newScrollTop ? newScrollTop + viewportHeight : newScrollTop - viewportHeight);
 				}
-				if (newScrollTop > offset.top) {
+				if (newScrollTop > offset.top - topPadding) {
 					$sidebar.stop().animate({
 						marginTop: newScrollTop - offset.top + topPadding
 					});

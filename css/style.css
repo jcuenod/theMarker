@@ -278,3 +278,14 @@ input[type=checkbox] + label {
 	-ms-user-select: none;
 	user-select: none;
 }
+.navReference::before {
+	position: absolute;
+	width: calc(100% - 65px);
+	left: 0;
+	height: 100%;
+	top: 0;
+	box-shadow: -6px 0 white,
+		6px 0 white,
+		0 7px 4px -3px #f3f3f3;
+	content: "";
+}
