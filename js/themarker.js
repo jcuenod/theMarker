@@ -265,7 +265,7 @@ $(document).ready(function() {
 	var $sidebar	= $(".sidebar"),
 		$window		= $(window),
 		offset		= $sidebar.offset(),
-		topPadding	= 35 + 15,
+		topPadding	= 35 + 35,
 		ticking		= false;
 	viewportHeight = $window.height();
 

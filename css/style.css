@@ -292,3 +292,24 @@ input[type=checkbox] + label {
 	content: "";
 	transform: translateZ(0);
 }
+
+
+/* Larger than tablet */
+@media (max-width: 1200px) {
+	.tab-nav .button {
+		font-size: 0;
+		color: white;
+		position: relative;
+	}
+	.tab-nav .button::before {
+		font-size: 20px; /* skeleton.css default is 11px */
+		position: absolute;
+		left: 0;
+		right: 0;
+		color: #555;
+		content: attr(data-symbol);
+	}
+	.tab-nav .button:hover::before {
+		color: #333;
+	}
+}
