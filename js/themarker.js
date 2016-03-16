@@ -307,7 +307,8 @@ $(document).ready(function() {
 	$(".selectedWord").removeClass("selectedWord");
 	$(this).addClass("selectedWord");
 }).on("mouseenter", ".wordItself", function(e){
-	if (oneClickDefinitions && !e.ctrlKey)
+	//i.e. (oneClickDefinitions && !e.ctrlKey) || (!oneClickDefinitions && e.ctrlKey)
+	if (oneClickDefinitions !== e.ctrlKey)
 		dataDisplayed = displaydata($(this), ".static.dataDisplayer", true);
 }).on("click", ".btnHighlightSomething", function() {
 	var $formElements = $form.children().filter(":input");
