@@ -16,6 +16,7 @@ body {
 	font-size: 300%;
 	vertical-align: middle;
 	display: table-cell;
+	z-index: 999;
 }
 
 .sidebar {
