@@ -416,7 +416,6 @@ function normalizePolytonicGreekToLowerCase(text) {
 
 function toggleOneClickDefinitions()
 {
-	console.log("toggle!");
 	setOneClickDefinitions(!oneClickDefinitions);
 }
 function setOneClickDefinitions(oneClick)
@@ -427,8 +426,6 @@ function setOneClickDefinitions(oneClick)
 	$(".showDefinition").toggle(!oneClick);
 	$("#oneClickDefs").attr("checked", oneClick);
 	localStorage.setItem("oneClickDefinitions", oneClick);
-	console.log(localStorage.getItem("oneClickDefinitions"));
-	console.log(oneClickDefinitions);
 }
 function setVerseRange()
 {
