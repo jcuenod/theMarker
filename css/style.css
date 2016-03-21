@@ -186,10 +186,6 @@ body {
 }
 
 
-#messagebox_overlay {
-	z-index: 200;
-}
-
 input[type="range"]::-moz-range-track {
 	padding: 0 10px;
 	background: repeating-linear-gradient(to right, #ccc, #ccc 7%, #000 7%, #000 8%, #ccc 8%, #ccc 16.5%);
