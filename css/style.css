@@ -18,6 +18,9 @@ body {
 	display: table-cell;
 	z-index: 999;
 }
+#messagebox_overlay {
+	z-index: 1000; /* needs to be higher than loadingOverlay */
+}
 
 .sidebar {
 	max-height: 85vh;
