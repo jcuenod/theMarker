@@ -514,8 +514,7 @@ function scrollToWord(word, offset)
 
 function showDefinition(lemma)
 {
-	var lemmaWithoutBrackets = lemma.replace(/\(.+?\)/g, '');
-	var dictionaryEntry = dictionaryData[normalizePolytonicGreekToLowerCase(lemmaWithoutBrackets)];
+	var dictionaryEntry = dictFindEntry(lemma);
 	var $title = $("<div>").addClass("definitionTitle").text(lemma + " (" + dictionaryEntry.frequencyCount + "x)");
 	var lemmaDefinition = dictionaryEntry.definition;
 	var $msg = $("<p>");
@@ -542,4 +541,17 @@ function showDefinition(lemma)
 	$.MessageBox({
 		message: $("<div>").addClass("definition").append($title).append($msg)
 	});
+}
+
+function dictFindEntry(word)
+{
+	var lemmaWithoutBrackets = word.replace(/\(.+?\)/g, '');
+	var normalizedLemma = normalizePolytonicGreekToLowerCase(lemmaWithoutBrackets);
+	var ret = dictionaryData[normalizedLemma];
+	if (typeof ret == "undefined")
+	{
+		var lemmaWithAlternateEnding = normalizedLemma.replace(/ομαι$/, 'ω');
+		ret = dictionaryData[lemmaWithAlternateEnding];
+	}
+	return ret;
 }
