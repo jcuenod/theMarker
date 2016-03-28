@@ -521,7 +521,7 @@ function showDefinition(lemma)
 	lemmaDefinition.split(/([\u0370-\u03FF\u1F00-\u1FFF]+)/).forEach(function(l){
 		if (l.match(/[\u0370-\u03FF\u1F00-\u1FFF]+/))
 		{
-			if (dictFindEntry(l)])
+			if (dictFindEntry(l))
 			{
 				$msg.append($("<a>", {
 					"href": "#",
