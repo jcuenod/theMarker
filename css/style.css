@@ -313,3 +313,12 @@ input[type=checkbox] + label {
 		color: #333;
 	}
 }
+
+.textUnit {
+    white-space: nowrap;
+}
+.textCrit:hover {
+	color: #a00;
+	cursor: pointer;
+	font-weight: bold;
+}

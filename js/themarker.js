@@ -163,10 +163,11 @@ function loadBook(bookToLoad, doWhenLoaded){
 					.addClass("verse")
 					.attr("data-verse-number", verse.verse);
 				verse.words.forEach(function(word){
+					$unit = $("<span>").addClass("textUnit");
 					(word.wordInText + " ").split(/([\u0370-\u03FF\u1F00-\u1FFF]+)/).forEach(function(bit){
 						if (bit.match(/[\u0370-\u03FF\u1F00-\u1FFF]+/))
 						{
-							$vElement.append(
+							$unit.append(
 								$("<span>")
 									.append(bit)
 									.addClass("wordItself")
@@ -176,11 +177,36 @@ function loadBook(bookToLoad, doWhenLoaded){
 									.attr("data-morphology-two", word.morphologyTwo)
 							);
 						}
+						else if (bit.match(/[\[\]\u2E00-\u2E05]+/)) //text-crit marker
+						{
+							bit.split(/([\[\]\u2E00-\u2E05])/).forEach(function(smallerBit){
+								if (smallerBit.match(/[\[\]\u2E00-\u2E05]+/))
+								{
+									$unit.append(
+										$("<span>")
+										.addClass("textCrit")
+										.append(smallerBit)
+									);
+								}
+								else
+								{
+									$unit.append(smallerBit);
+								}
+							});
+						}
 						else
 						{
-							$vElement.append(bit);
+							$unit.append(bit);
 						}
 					});
+					if ($unit.children().length > 1)
+					{
+						$vElement.append(" ").append($unit);
+					}
+					else
+					{
+						$vElement.append(" ").append($unit.children());
+					}
 				});
 				$chElement.append($vElement);
 			});
