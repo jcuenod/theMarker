@@ -461,12 +461,12 @@ function setVerseRange()
 		$(".referenceVerse").html("");
 	}
 	else {
-		var earlyChapter = $(element).parent().parent().attr("data-chapter-number");
-		var earlyVerse = $(element).parent().attr("data-verse-number");
+		var earlyChapter = $(element).closest(".chapter").attr("data-chapter-number");
+		var earlyVerse = $(element).closest(".verse").attr("data-verse-number");
 		var earlyWordInVerse = $(element).attr("data-word-index-in-verse");
 		var earliestPoint = earlyChapter + ":" + earlyVerse;
 		element = getExtremeElement(true);
-		var latestPoint = $(element).parent().parent().attr("data-chapter-number") + ":" + $(element).parent().attr("data-verse-number");
+		var latestPoint = $(element).closest(".chapter").attr("data-chapter-number") + ":" + $(element).closest(".verse").attr("data-verse-number");
 		$(".referenceVerse").html(earliestPoint + "-" + latestPoint);
 		currentReference.chapter = earlyChapter;
 		currentReference.verse = earlyVerse;
