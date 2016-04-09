@@ -381,7 +381,8 @@ $(document).ready(function() {
 	var $sibling = $(".textCrit[data-textcritical-sibling='" + $that.attr("data-unit-index") + "']");
 	if ($sibling.length > 0)
 	{
-		$that.nextUntil($sibling).andSelf().add($sibling.closest(".textUnit")).addClass("textCritRangeHighlight");
+		var $sibTU = $sibling.closest(".textUnit")
+		$that.closest(".textUnit").nextUntil($sibTU).andSelf().add($sibTU).addClass("textCritRangeHighlight");
 	}
 }).on("mouseleave", ".textCrit", function(e){
 	if (e.ctrlKey)
