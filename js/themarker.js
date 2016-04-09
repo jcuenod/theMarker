@@ -172,8 +172,6 @@ function loadBook(bookToLoad, doWhenLoaded){
 				var $vElement = $("<span>")
 					.addClass("verse")
 					.attr("data-verse-number", verse.verse);
-				if (chapter.chapter == 24 && verse.verse == 15)
-					console.log("here we are");
 				verse.words.forEach(function(word){
 					var $unit = $("<span>").addClass("textUnit");
 					(word.wordInText + " ").split(/([\u0370-\u03FF\u1F00-\u1FFF]+)/).forEach(function(bit){
