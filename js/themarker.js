@@ -76,8 +76,8 @@ function displaydata(object, destination, extended)
 {
 	var position = {
 		"wordIndexInVerse": $(object).attr("data-word-index-in-verse"),
-		"verseNumber": $(object).parent().attr("data-verse-number"),
-		"chapterNumber": $(object).parent().parent().attr("data-chapter-number")
+		"verseNumber": $(object).closest(".verse").attr("data-verse-number"),
+		"chapterNumber": $(object).closest(".chapter").attr("data-chapter-number")
 	};
 	var dataChapter = $.grep(bibleData.chapters, function(e){ return e.chapter == position.chapterNumber; })[0];
 	var dataVerse = $.grep(dataChapter.verses, function(e){ return e.verse == position.verseNumber; })[0];
@@ -358,17 +358,17 @@ $(document).ready(function() {
 }).on("click", ".loadNewBook", function(){
 	showLoad();
 }).on("mouseenter", ".textCrit", function(){
-	var tc = $(this).attr("data-textcritical-index");
-	if (typeof tc === "undefined")
+	var $that;
+	if (typeof $(this).attr("data-textcritical-index") === "undefined")
 	{
 		var unitSibling = $(this).attr("data-textcritical-sibling");
 		$that = $(".textCrit[data-unit-index=" + unitSibling + "]");
-		tc = $that.attr("data-textcritical-index");
 	}
 	else
 	{
 		$that = $(this);
 	}
+	var tc = $that.attr("data-textcritical-index");
 	var chapter = $that.closest(".chapter").attr("data-chapter-number");
 	var verse = $that.closest(".verse").attr("data-verse-number");
 	var ch = findObjectInArrayByKeyValue(bibleData.chapters, "chapter", chapter);
@@ -377,9 +377,19 @@ $(document).ready(function() {
 	$(".textCriticismContainer").text(vs.textCrit[tc]);
 	$(".textCriticalInfo").show();
 	$(".morphologyInfo").hide();
-}).on("mouseleave", ".textCrit", function(){
+
+	var $sibling = $(".textCrit[data-textcritical-sibling='" + $that.attr("data-unit-index") + "']");
+	if ($sibling.length > 0)
+	{
+		$that.nextUntil($sibling).andSelf().add($sibling.closest(".textUnit")).addClass("textCritRangeHighlight");
+	}
+}).on("mouseleave", ".textCrit", function(e){
+	if (e.ctrlKey)
+		return;
+
 	$(".morphologyInfo").show();
 	$(".textCriticalInfo").hide();
+	$(".textCritRangeHighlight").removeClass("textCritRangeHighlight");
 }).on("click", ".wordItself", function(){
 	if (oneClickDefinitions)
 	{

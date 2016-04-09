@@ -317,8 +317,22 @@ input[type=checkbox] + label {
 .textUnit {
     white-space: nowrap;
 }
-.textCrit:hover {
+.textCrit:hover,
+.textCritRangeHighlight .textCrit {
 	color: #a00;
 	cursor: pointer;
 	font-weight: bold;
+}
+
+.textCritRangeHighlight {
+	color: #a00;
+}
+
+.textCriticismContainer {
+	font-family: "SBL Biblit", "SBL Greek";
+	font-size: 130%;
+}
+.textCriticalInfo {
+	display: none;
+	overflow: hidden;
 }
