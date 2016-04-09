@@ -158,6 +158,8 @@ function loadBook(bookToLoad, doWhenLoaded){
 		$(".referenceBook").text($.grep(bookList, function(b){ return b.value == currentReference.book; })[0].bookName);
 		$(".referenceVerse").text("");
 		bibleData = data;
+		var openBrackets = [];
+		var unitIndex = 0;
 		data.chapters.forEach(function(chapter){
 			if (chapter.verses.length === 1)
 				return;
@@ -190,13 +192,36 @@ function loadBook(bookToLoad, doWhenLoaded){
 							bit.split(/([\[\]\u2E00-\u2E05])/).forEach(function(smallerBit){
 								if (smallerBit.match(/[\[\]\u2E00-\u2E05]+/))
 								{
+									var attrAttribute = "data-textcritical-index";
+									var attrValue = textCritIndex;
+									if (smallerBit.match(/[\u2E03\u2E05]/))
+									{
+										attrAttribute = "data-textcritical-sibling";
+										switch (smallerBit) {
+											case "\u2E03":
+												attrValue = openBrackets["\u2E02"];
+												break;
+											case "\u2E05":
+												attrValue = openBrackets["\u2E04"];
+												break;
+										}
+									}
+									else
+									{
+										textCritIndex++;
+										if (smallerBit.match(/[\u2E02\u2E04]/))
+										{
+											openBrackets[smallerBit] = unitIndex;
+										}
+									}
+
 									$unit.append(
 										$("<span>")
 											.addClass("textCrit")
 											.append(smallerBit)
-											.attr("data-textcritical-index", textCritIndex)
+											.attr(attrAttribute, attrValue)
+											.attr("data-unit-index", unitIndex++)
 									);
-									textCritIndex++;
 								}
 								else
 								{
@@ -332,13 +357,29 @@ $(document).ready(function() {
 	trapScroll({ onScrollEnd: function(){} });
 }).on("click", ".loadNewBook", function(){
 	showLoad();
-}).on("click", ".textCrit", function(){
-	var chapter = $(this).closest(".chapter").attr("data-chapter-number");
-	var verse = $(this).closest(".verse").attr("data-verse-number");
+}).on("mouseenter", ".textCrit", function(){
+	var tc = $(this).attr("data-textcritical-index");
+	if (typeof tc === "undefined")
+	{
+		var unitSibling = $(this).attr("data-textcritical-sibling");
+		$that = $(".textCrit[data-unit-index=" + unitSibling + "]");
+		tc = $that.attr("data-textcritical-index");
+	}
+	else
+	{
+		$that = $(this);
+	}
+	var chapter = $that.closest(".chapter").attr("data-chapter-number");
+	var verse = $that.closest(".verse").attr("data-verse-number");
 	var ch = findObjectInArrayByKeyValue(bibleData.chapters, "chapter", chapter);
 	var vs = findObjectInArrayByKeyValue(ch.verses, "verse", verse);
-	var tc = $(this).attr("data-textcritical-index");
-	console.log(vs.textCrit[tc]);
+
+	$(".textCriticismContainer").text(vs.textCrit[tc]);
+	$(".textCriticalInfo").show();
+	$(".morphologyInfo").hide();
+}).on("mouseleave", ".textCrit", function(){
+	$(".morphologyInfo").show();
+	$(".textCriticalInfo").hide();
 }).on("click", ".wordItself", function(){
 	if (oneClickDefinitions)
 	{
