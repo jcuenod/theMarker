@@ -172,6 +172,8 @@ function loadBook(bookToLoad, doWhenLoaded){
 				var $vElement = $("<span>")
 					.addClass("verse")
 					.attr("data-verse-number", verse.verse);
+				if (chapter.chapter == 24 && verse.verse == 15)
+					console.log("here we are");
 				verse.words.forEach(function(word){
 					var $unit = $("<span>").addClass("textUnit");
 					(word.wordInText + " ").split(/([\u0370-\u03FF\u1F00-\u1FFF]+)/).forEach(function(bit){
@@ -229,9 +231,9 @@ function loadBook(bookToLoad, doWhenLoaded){
 								}
 							});
 						}
-						else
+						else //punctuation - if it's not in a span it will be lost in the if statement below
 						{
-							$unit.append(bit);
+							$unit.append($("<span>").append(bit));
 						}
 					});
 					if ($unit.children().length > 1)
@@ -381,7 +383,7 @@ $(document).ready(function() {
 	var $sibling = $(".textCrit[data-textcritical-sibling='" + $that.attr("data-unit-index") + "']");
 	if ($sibling.length > 0)
 	{
-		var $sibTU = $sibling.closest(".textUnit")
+		var $sibTU = $sibling.closest(".textUnit");
 		$that.closest(".textUnit").nextUntil($sibTU).andSelf().add($sibTU).addClass("textCritRangeHighlight");
 	}
 }).on("mouseleave", ".textCrit", function(e){
