@@ -68,6 +68,10 @@ var partsOfSpeech = {
 	"X-": "Particle"
 };
 
+var findObjectInArrayByKeyValue = function(arrayToSearch, key, value) {
+	return $.grep(arrayToSearch, function(e){ return e[key] == value; })[0];
+};
+
 function displaydata(object, destination, extended)
 {
 	var position = {
@@ -89,9 +93,12 @@ function displaydata(object, destination, extended)
 			var $posTitle = $("<div>").addClass("definitionTitle").text("Part of Speech");
 			var $parsingTitle = $("<div>").addClass("definitionTitle").text("Parsing");
 			var $parsingDetail = $("<div>").addClass("definitionDetail");
-			var findObjectWithValue = function(obj, value) {
-				return $.grep(obj, function(e){ return e.value == value; })[0];
+			var findObjectWithValue = function(arrayOfObjects, value) {
+				return findObjectInArrayByKeyValue(arrayOfObjects, "value", value);
 			};
+			// var findObjectWithValue = function(obj, value) {
+			// 	return $.grep(obj, function(e){ return e.value == value; })[0];
+			// };
 			if (dataWord.morphologyTwo !== "--------")
 			{
 				for (var i = 0; i < 8; i++) {
@@ -159,11 +166,12 @@ function loadBook(bookToLoad, doWhenLoaded){
 				.attr("data-chapter-number", chapter.chapter)
 				.append($("<a>").attr("name", "ch" + chapter.chapter));
 			chapter.verses.forEach(function(verse){
+				var textCritIndex = 0;
 				var $vElement = $("<span>")
 					.addClass("verse")
 					.attr("data-verse-number", verse.verse);
 				verse.words.forEach(function(word){
-					$unit = $("<span>").addClass("textUnit");
+					var $unit = $("<span>").addClass("textUnit");
 					(word.wordInText + " ").split(/([\u0370-\u03FF\u1F00-\u1FFF]+)/).forEach(function(bit){
 						if (bit.match(/[\u0370-\u03FF\u1F00-\u1FFF]+/))
 						{
@@ -184,9 +192,11 @@ function loadBook(bookToLoad, doWhenLoaded){
 								{
 									$unit.append(
 										$("<span>")
-										.addClass("textCrit")
-										.append(smallerBit)
+											.addClass("textCrit")
+											.append(smallerBit)
+											.attr("data-textcritical-index", textCritIndex)
 									);
+									textCritIndex++;
 								}
 								else
 								{
@@ -322,6 +332,13 @@ $(document).ready(function() {
 	trapScroll({ onScrollEnd: function(){} });
 }).on("click", ".loadNewBook", function(){
 	showLoad();
+}).on("click", ".textCrit", function(){
+	var chapter = $(this).closest(".chapter").attr("data-chapter-number");
+	var verse = $(this).closest(".verse").attr("data-verse-number");
+	var ch = findObjectInArrayByKeyValue(bibleData.chapters, "chapter", chapter);
+	var vs = findObjectInArrayByKeyValue(ch.verses, "verse", verse);
+	var tc = $(this).attr("data-textcritical-index");
+	console.log(vs.textCrit[tc]);
 }).on("click", ".wordItself", function(){
 	if (oneClickDefinitions)
 	{
