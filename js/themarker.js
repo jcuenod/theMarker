@@ -384,6 +384,9 @@ $(document).ready(function() {
 		var $sibTU = $sibling.closest(".textUnit");
 		$that.closest(".textUnit").nextUntil($sibTU).andSelf().add($sibTU).addClass("textCritRangeHighlight");
 	}
+	else {
+		$that.closest(".textUnit").addClass("textCritRangeHighlight");
+	}
 }).on("mouseleave", ".textCrit", function(e){
 	if (e.ctrlKey)
 		return;
