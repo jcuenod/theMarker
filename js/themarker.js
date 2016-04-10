@@ -73,7 +73,7 @@ var textCriticalAbbreviations = {
 	"]": "Separates the reading of the text (and its support) from variant readings.",
 	";": "Separates multiple variants within a single variation unit.",
 	"+": "The following text is added by the listed witness(es).",
-	"-": "The indicated text is omitted by the listed witness(es).",
+	"–": "The indicated text is omitted by the listed witness(es).",
 	"…": "Replaces identical text shared by all the variants in a particular variation unit.",
 	"ECM": "Novum Testamentum Graecum: Editio Critica Maior, ed. The Institute for New Testament Textual Research, vol. 4: Catholic Letters, ed. Barbara Aland, Kurt Aland, Gerd Mink, Holger Strutwolf, and Klaus Wachtel (4 installments; Stuttgart: Deutsche Biblegesellschaft, 1997–2005): inst. 1: James (1997; 2nd rev. impr., 1998); inst. 2: The Letters of Peter (2000); inst. 3: The First Letter of John (2003); inst. 4: The Second and Third Letter of John, The Letter of Jude (2005).",
 	"em": "emendation",
