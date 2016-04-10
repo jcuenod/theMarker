@@ -484,8 +484,8 @@ $(document).ready(function() {
 	$searchResults = $(".searchResults ul");
 	$searchResults.empty();
 	$words.each(function(){
-		var chapterNum = $(this).parent().parent().attr("data-chapter-number"),
-			verseNum = $(this).parent().attr("data-verse-number"),
+		var chapterNum = $(this).closest("chapter").attr("data-chapter-number"),
+			verseNum = $(this).closest("verse").attr("data-verse-number"),
 			$tmpreference = $("<span>").addClass("vref")
 				.text(chapterNum + ":" + verseNum),
 			$liEl = $("<li>")
