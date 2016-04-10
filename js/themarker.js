@@ -68,6 +68,27 @@ var partsOfSpeech = {
 	"X-": "Particle"
 };
 
+var textCriticalAbbreviations = {
+	"]": "Separates the reading of the text (and its support) from variant readings.",
+	";": "Separates multiple variants within a single variation unit.",
+	"+": "The following text is added by the listed witness(es).",
+	"-": "The indicated text is omitted by the listed witness(es).",
+	"…": "Replaces identical text shared by all the variants in a particular variation unit.",
+	"ECM": "Novum Testamentum Graecum: Editio Critica Maior, ed. The Institute for New Testament Textual Research, vol. 4: Catholic Letters, ed. Barbara Aland, Kurt Aland, Gerd Mink, Holger Strutwolf, and Klaus Wachtel (4 installments; Stuttgart: Deutsche Biblegesellschaft, 1997–2005): inst. 1: James (1997; 2nd rev. impr., 1998); inst. 2: The Letters of Peter (2000); inst. 3: The First Letter of John (2003); inst. 4: The Second and Third Letter of John, The Letter of Jude (2005).",
+	"em": "emendation",
+	"Greeven": "Indicates a reading printed as the text by Heinrich Greeven in Albert Huck, Synopse der drei ersten Evangelien/Synopsis of the First Three Gospels (13th ed. fundamentally revised by Heinrich Greeven; Tübingen: Mohr Siebeck), 1981).",
+	"Holmes": "Indicates a reading preferred by the editor that is not found in any of the four primary editions.",
+	"NA": "Represents the NA26–27/UBS3–4 editions, which all print the identical Greek text. NA is explicitly cited only when it differs from NIV.",
+	"NIV": "Richard J. Goodrich and Albert L. Lukaszewski, eds., A Reader’s Greek New Testament (Grand Rapids: Zondervan, 2003).",
+	"RP": "The New Testament in the Original Greek: Byzantine Textform 2005, compiled and arranged by Maurice A. Robinson and William G. Pierpont (Southborough, Mass.: Chilton, 2005).",
+	"TR": "Textus Receptus (\"Received Text\"). The phrase technically designates the edition of the Greek New Testament printed by the Elziver Brothers in 1633; in generic use it can designate not only the Elziver text but also its precursors (Erasmus, Stephanus, and Beza) or any similar text.",
+	"Treg": "Samuel Prideaux Tregelles, The Greek New Testament, Edited from Ancient Authorities, with their Various Readings in Full, and the Latin Version of Jerome (London: Bagster; Stewart, 1857–1879).",
+	"WH": "Brooke Foss Westcott and Fenton John Anthony Hort, The New Testament in the Original Greek, vol. 1: Text; vol. 2: Introduction [and] Appendix (Cambridge: Macmillan, 1881)."
+};
+// Tregmarg: Indicates a reading printed by Tregelles in the margin of his edition.
+// WHapp: Indicates a reading discussed by WH in the Appendix to their edition (in vol. 2).
+// WHmarg: Indicates an alternative reading printed by WH in the margin of their edition.
+
 var findObjectInArrayByKeyValue = function(arrayToSearch, key, value) {
 	return $.grep(arrayToSearch, function(e){ return e[key] == value; })[0];
 };
@@ -374,9 +395,31 @@ $(document).ready(function() {
 	var ch = findObjectInArrayByKeyValue(bibleData.chapters, "chapter", chapter);
 	var vs = findObjectInArrayByKeyValue(ch.verses, "verse", verse);
 
-	$(".textCriticismContainer").text(vs.textCrit[tc]);
+	var $tcNote = vs.textCrit[tc].replace("&nbsp;", " ");
+	var regExpression = [];
+	Object.keys(textCriticalAbbreviations).forEach(function(entry) {
+		regExpression.push(entry.replace(/^(\W)/, "\\$1"));
+	});
+
+	var re = new RegExp(regExpression.join("|"),"g");
+	$tcNote = $tcNote.replace(re, function(matched){
+		return "<span class='tooltip' data-tooltip-content='" + textCriticalAbbreviations[matched] + "'>" + matched + "</span>";
+	});
+	$(".textCriticismContainer").html($tcNote);
 	$(".textCriticalInfo").show();
 	$(".morphologyInfo").hide();
+
+	$('[data-tooltip-content]').qtip({
+		content: {
+			text: function(event, api) {
+				return $(event.target).attr("data-tooltip-content");
+			}
+		},
+		position: {
+			my: 'top center',  // Position my top left...
+			at: 'bottom center', // at the bottom right of...
+		}
+	});
 
 	var $sibling = $(".textCrit[data-textcritical-sibling='" + $that.attr("data-unit-index") + "']");
 	if ($sibling.length > 0)

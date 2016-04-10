@@ -118,7 +118,7 @@ body {
 	font-size: 70%;
 	position: relative;
 	top: -5px;
-    left: 5px;
+	left: 5px;
 	color: #44f;
 }
 
@@ -316,7 +316,7 @@ input[type=checkbox] + label {
 }
 
 .textUnit {
-    white-space: nowrap;
+	white-space: nowrap;
 	display: inline-block;
 }
 .textCrit:hover,
@@ -337,4 +337,24 @@ input[type=checkbox] + label {
 .textCriticalInfo {
 	display: none;
 	overflow: hidden;
+}
+
+[data-tooltip-content]:hover {
+	cursor: pointer;
+}
+
+.textCriticalHelp {
+	padding-top: 15px;
+}
+.helper {
+	margin-left: 1.5em;
+}
+.helper:before {
+	width: 1em;
+	position: relative;
+	content: "\026A0";
+	color: #dfc12a;
+	font-weight: bold;
+	left: -1.5em;
+	margin-right: -1em;
 }
