@@ -12,6 +12,7 @@ var dataDisplayed = [];
 var highlightCounter = 0;
 var viewportHeight;
 var oneClickDefinitions = false;
+var textCriticalInfoShowing = false;
 
 var bookList = [{ "value": "matthew", "bookName": "Matthew" },
 	{ "value": "mark", "bookName": "Mark" },
@@ -93,8 +94,21 @@ var findObjectInArrayByKeyValue = function(arrayToSearch, key, value) {
 	return $.grep(arrayToSearch, function(e){ return e[key] == value; })[0];
 };
 
-function displaydata(object, destination, extended)
+function showMorphologicalData(){
+	$(".textCriticalInfo").hide();
+	$(".morphologyInfo").show();
+	$(".textCritRangeHighlight").removeClass("textCritRangeHighlight");
+	textCriticalInfoShowing = false;
+}
+function showTextCriticalData(){
+	$(".textCriticalInfo").show();
+	$(".morphologyInfo").hide();
+	textCriticalInfoShowing = true;
+}
+
+function displaydata(object, extended)
 {
+	var $lexicalForm = $(".lexicalForm");
 	var position = {
 		"wordIndexInVerse": $(object).attr("data-word-index-in-verse"),
 		"verseNumber": $(object).closest(".verse").attr("data-verse-number"),
@@ -108,7 +122,7 @@ function displaydata(object, destination, extended)
 	{
 		if (!extended)
 		{
-			$(destination).html(dataWord.lemma);
+			$lexicalForm.html(dataWord.lemma);
 		}
 		else {
 			var $posTitle = $("<div>").addClass("definitionTitle").text("Part of Speech");
@@ -141,10 +155,11 @@ function displaydata(object, destination, extended)
 				$(".parsingData").empty().append($posTitle)
 					.append($("<div>").text(partsOfSpeech[dataWord.morphologyOne]));
 			}
-			$(destination).html(dataWord.lemma);
+			$lexicalForm.html(dataWord.lemma);
 		}
 	}
-	return dataWord;
+	showMorphologicalData();
+	dataDisplayed = dataWord;
 }
 
 function inArray(elem, array) {
@@ -378,7 +393,10 @@ $(document).ready(function() {
 	trapScroll({ onScrollEnd: function(){} });
 }).on("click", ".loadNewBook", function(){
 	showLoad();
-}).on("mouseenter", ".textCrit", function(){
+}).on("mouseenter", ".textCrit", function(e){
+	if (e.ctrlKey)
+		return;
+
 	var $that;
 	if (typeof $(this).attr("data-textcritical-index") === "undefined")
 	{
@@ -406,8 +424,7 @@ $(document).ready(function() {
 		return "<span class='tooltip' data-tooltip-content='" + textCriticalAbbreviations[matched] + "'>" + matched + "</span>";
 	});
 	$(".textCriticismContainer").html($tcNote);
-	$(".textCriticalInfo").show();
-	$(".morphologyInfo").hide();
+	showTextCriticalData();
 
 	$('[data-tooltip-content]').qtip({
 		content: {
@@ -428,29 +445,23 @@ $(document).ready(function() {
 		$that.closest(".textUnit").nextUntil($sibTU).andSelf().add($sibTU).addClass("textCritRangeHighlight");
 	}
 	else {
+		$(".textCritRangeHighlight").removeClass("textCritRangeHighlight");
 		$that.closest(".textUnit").addClass("textCritRangeHighlight");
 	}
-}).on("mouseleave", ".textCrit", function(e){
-	if (e.ctrlKey)
-		return;
-
-	$(".morphologyInfo").show();
-	$(".textCriticalInfo").hide();
-	$(".textCritRangeHighlight").removeClass("textCritRangeHighlight");
 }).on("click", ".wordItself", function(){
 	if (oneClickDefinitions)
 	{
 		showDefinition(dataDisplayed.lemma);
 	}
 	else {
-		dataDisplayed = displaydata($(this), ".static.dataDisplayer", true);
+		displaydata($(this), true);
 	}
 	$(".selectedWord").removeClass("selectedWord");
 	$(this).addClass("selectedWord");
 }).on("mouseenter", ".wordItself", function(e){
 	//i.e. (oneClickDefinitions && !e.ctrlKey) || (!oneClickDefinitions && e.ctrlKey)
 	if (oneClickDefinitions !== e.ctrlKey)
-		dataDisplayed = displaydata($(this), ".static.dataDisplayer", true);
+		displaydata($(this), true);
 }).on("click", ".btnHighlightSomething", function() {
 	var $formElements = $form.children().filter(":input");
 	var formData = {};

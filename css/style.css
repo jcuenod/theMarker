@@ -71,7 +71,7 @@ body {
 .chapterLink:hover {
 	color: #338;
 }
-.dataDisplayer {
+.lexicalForm {
 	font-size: 150%;
 	font-family: "SBL Biblit", "SBL Greek";
 	letter-spacing: 1px;
@@ -339,7 +339,7 @@ input[type=checkbox] + label {
 	overflow: hidden;
 }
 
-[data-tooltip-content]:hover {
+.tooltip[data-tooltip-content]:hover {
 	cursor: pointer;
 }
 
