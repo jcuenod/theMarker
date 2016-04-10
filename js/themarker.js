@@ -438,6 +438,7 @@ $(document).ready(function() {
 		}
 	});
 
+	$(".textCritRangeHighlight").removeClass("textCritRangeHighlight");
 	var $sibling = $(".textCrit[data-textcritical-sibling='" + $that.attr("data-unit-index") + "']");
 	if ($sibling.length > 0)
 	{
@@ -445,7 +446,6 @@ $(document).ready(function() {
 		$that.closest(".textUnit").nextUntil($sibTU).andSelf().add($sibTU).addClass("textCritRangeHighlight");
 	}
 	else {
-		$(".textCritRangeHighlight").removeClass("textCritRangeHighlight");
 		$that.closest(".textUnit").addClass("textCritRangeHighlight");
 	}
 }).on("click", ".wordItself", function(){
