@@ -1,6 +1,8 @@
 var highlightColours = ["SteelBlue", "Aqua", "MediumTurquoise", "PaleTurquoise", "CadetBlue", "LightSteelBlue", "SkyBlue", "Lime", "GreenYellow", "LimeGreen", "PaleGreen", "OliveDrab", "SeaGreen", "ForestGreen", "Crimson", "FireBrick", "OrangeRed", "IndianRed", "LightCoral", "Salmon", "LightSalmon", "DarkOrange", "Gold", "Khaki", "DarkKhaki", "PaleGoldenrod", "Moccasin", "PeachPuff", "BlueViolet", "Purple", "Thistle", "Plum", "Violet", "MediumOrchid", "MediumPurple"];
 
 var bibleData;
+var glossesData;
+var show_glosses_flag;
 var currentReference;
 var $aboutDialog;
 var dictionaryData;
@@ -153,7 +155,16 @@ function displaydata(object, extended)
 			}
 			else {
 				$(".parsingData").empty().append($posTitle)
-					.append($("<div>").text(partsOfSpeech[dataWord.morphologyOne]));
+					.append($("<div>").addClass("definitionDetail").text(partsOfSpeech[dataWord.morphologyOne]));
+			}
+			if (show_glosses_flag)
+			{
+				$(".parsingData").append(
+					$("<div>").addClass("grayed")
+						.append($("<div>").addClass("definitionDetail")
+							.append($("<b>").text("GLOSS: "))
+							.append(glossesData[dataWord.lemma].gloss))
+				);
 			}
 			$lexicalForm.html(dataWord.lemma);
 		}
@@ -327,6 +338,9 @@ $(document).ready(function() {
 	$.getJSON("json/dictionary.json", function(data){
 		dictionaryData = data;
 	});
+	$.getJSON("json/glosses.json", function(data){
+		glossesData = data;
+	});
 
 	if (!FontDetect.isFontLoaded('SBL BibLit') && !FontDetect.isFontLoaded('SBL Greek'))
 	{
@@ -335,6 +349,16 @@ $(document).ready(function() {
 		});
 	}
 	//TODO: this should be a settings object eventually and we shouldn't do string comparison
+	if (typeof localStorage.getItem("show_glosses_flag") !== "undefined")
+	{
+		show_glosses_flag = JSON.parse(localStorage.getItem("show_glosses_flag"));
+		$(".showGlosses").attr("checked", show_glosses_flag);
+	}
+	else {
+		show_glosses_flag = true;
+		localStorage.setItem("show_glosses_flag", show_glosses_flag);
+		$(".showGlosses").attr("checked", show_glosses_flag);
+	}
 	setOneClickDefinitions(localStorage.getItem("oneClickDefinitions") === "true");
 	currentReference =  JSON.parse(localStorage.getItem("currentReference")) || {
 		"book": "",
@@ -494,6 +518,9 @@ $(document).ready(function() {
 				.data("wordAnchor", this);
 		$searchResults.append($liEl);
 	});
+}).on("click", ".showGlosses", function(){
+	show_glosses_flag = $(this).is(':checked');
+	localStorage.setItem("show_glosses_flag", show_glosses_flag);
 }).on("click", ".oneClickDefs", function(){
 	toggleOneClickDefinitions();
 }).on("click", ".showAbout", function(){

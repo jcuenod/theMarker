@@ -358,3 +358,13 @@ input[type=checkbox] + label {
 	left: -1.5em;
 	margin-right: -1em;
 }
+
+.grayed {
+	background: #eee;
+	padding: 0.4em 0.6em;
+	box-sizing: border-box;
+	opacity: 0.7;
+}
+.grayed .definitionDetail {
+	margin-bottom: 0;
+}
